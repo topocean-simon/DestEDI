@@ -1,4 +1,5 @@
 Public Class frmMain
+
     Dim count As Integer = 0
     Dim startTime As Date
     Dim OfeRefId, OeiRefId, BkhRefId, AbhRefId, ImpUsr, BrhCd, SubBrhCd As Integer
@@ -26,6 +27,7 @@ Public Class frmMain
     End Property
 
     Private Sub frmMain_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
         Dim fvi As FileVersionInfo
         Dim common As New common
 
@@ -153,17 +155,19 @@ Public Class frmMain
     End Sub
 
     Private Sub btnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExit.Click
+
         Me.ExitToolStripMenuItem.PerformClick()
+
     End Sub
 
     Private Sub NotifyIcon1_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles NotifyIcon1.DoubleClick
-        ' ------------------------------------------------------------
-        ' Show application onto Taskbar if double the icon on System
-        ' Tray
-        ' ------------------------------------------------------------
+        ' ---------------------------------------------------------------
+        ' Show application onto Taskbar if double the icon on System Tray
+        ' ---------------------------------------------------------------
         Me.Show()
         Me.WindowState = FormWindowState.Normal
         NotifyIcon1.Visible = False
+
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
@@ -174,9 +178,11 @@ Public Class frmMain
             NotifyIcon1.Visible = True
             Me.Hide()
         End If
+
     End Sub
 
     Private Sub CloseMe(ByVal sender As Object, ByVal e As System.EventArgs)
+
         If inProcess Then
             ' ------------------------------------------------------------
             ' Reset timer if in report generating process
@@ -184,65 +190,64 @@ Public Class frmMain
             ' ------------------------------------------------------------
             stopper.Interval = 30 * 1000
             stopper.Start()
-
         Else
             ' ------------------------------------------------------------
             ' Close Application if not in process
             ' ------------------------------------------------------------
             Me.Close()
         End If
+
     End Sub
 
     Private Sub ExitToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem1.Click
+
         Me.ExitToolStripMenuItem.PerformClick()
+
     End Sub
 
     Private Sub Timer2_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer2.Tick
+
         Dim agentEDI As New ClsAgentEDI
         Dim destEDI As New ClsDestEDI
         Dim _11A_XML As New Cls11A_XML
         Dim common As New common
         Dim clsEmail As New ClsEmail
 
+        'Try
+        '    _11A_XML.export11A_XML()
+        'Catch ex As Exception
+        '    common.showScreenMsg("Error captured from exporting 11A XML.")
+        '    common.SaveLog("Error captured from exporting 11A XML." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
 
-        Try
-            _11A_XML.export11A_XML()
-            'agentEDI.exportAgentEDI_MGF()
-        Catch ex As Exception
-            common.showScreenMsg("Error captured from exporting 11A XML.")
-            common.SaveLog("Error captured from exporting 11A XML." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+        '    ' Send Error Email
+        '    clsEmail.sendAckEmail("11A EDI", ex.Message, 2)
+        'End Try
 
-            ' Send Error Email
-            'clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
-        End Try
+        '' Generate Agent EDI
+        'Try
+        '    agentEDI.exportAgentEDI_MGF()
+        'Catch ex As Exception
+        '    common.showScreenMsg("Error captured from exporting Agent EDI (MGF).")
+        '    common.SaveLog("Error captured from exporting Agent EDI (MGF)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
 
+        '    ' Send Error Email
+        '    clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
+        'End Try
 
+        '' Generate Agent EDI (AllBridge) Suspense
+        ''Try
+        ''    agentEDI.exportAgentEDI_Allbridge()
+        ''Catch ex As Exception
+        ''    common.showScreenMsg("Error captured from exporting Agent EDI (Allbridge).")
+        ''    common.SaveLog("Error captured from exporting Agent EDI (Allbridge)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
 
-        ' Generate Agent EDI
-        Try
-            'agentEDI.exportAgentEDI_MGF()
-        Catch ex As Exception
-            common.showScreenMsg("Error captured from exporting Agent EDI (MGF).")
-            common.SaveLog("Error captured from exporting Agent EDI (MGF)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
-
-            ' Send Error Email
-            clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
-        End Try
-
-        ' Generate Agent EDI (AllBridge)
-        Try
-            agentEDI.exportAgentEDI_Allbridge()
-        Catch ex As Exception
-            common.showScreenMsg("Error captured from exporting Agent EDI (Allbridge).")
-            common.SaveLog("Error captured from exporting Agent EDI (Allbridge)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
-
-            ' Send Error Email
-            clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
-        End Try
+        ''    ' Send Error Email
+        ''    clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
+        ''End Try
 
         ' Generate Dest. EDI
         Try
-            'destEDI.exportDestEDI()
+            destEDI.exportDestEDI()
         Catch ex As Exception
             common.showScreenMsg("Error captured from exporting Dest EDI.")
             common.SaveLog("Error captured from exporting Dest EDI." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
@@ -260,9 +265,11 @@ Public Class frmMain
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub Timer4_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer4.Tick
+
         Dim common As New common
 
         If Format(Now, "mm:ss") = "00:00" Then
@@ -279,5 +286,7 @@ Public Class frmMain
         ' Release memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
+
 End Class

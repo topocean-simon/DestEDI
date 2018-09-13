@@ -142,4 +142,27 @@ Public Class common
         GC.Collect()
         GC.WaitForPendingFinalizers()
     End Function
+
+    Function replaceXMLChar(ByVal inVal As String) As String
+        Dim tmp As String = inVal
+
+        tmp = Replace(tmp, "&", "&amp;")
+        tmp = Replace(tmp, "'", "&apos;")
+        tmp = Replace(tmp, "¡¦", "&apos;")
+        tmp = Replace(tmp, "<", "&lt;")
+        tmp = Replace(tmp, ">", "&gt;")
+        tmp = Replace(tmp, """", "&quot;")
+        tmp = Replace(tmp, "¡V", "-")
+        tmp = Replace(tmp, "¡¦", "&apos;")
+
+        replaceXMLChar = tmp
+
+        ' Destroy Variables
+        tmp = Nothing
+
+        ' Release Memory
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+    End Function
+
 End Class

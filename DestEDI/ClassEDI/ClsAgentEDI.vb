@@ -2,6 +2,7 @@ Imports MySql
 Imports System.Xml
 
 Public Class ClsAgentEDI
+
     Shared ediType As String = "Agent"
 
     Sub exportAgentEDI_MGF()
@@ -120,6 +121,7 @@ Public Class ClsAgentEDI
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Function exportAgentEDI_File_MGF(ByVal AelRefId As Integer, ByVal BkhRefId As Integer, ByVal AgtCode As String) As String
