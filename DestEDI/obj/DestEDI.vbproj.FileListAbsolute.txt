@@ -1,0 +1,83 @@
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\ResolveAssemblyReference.cache
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.frmOptions.resources
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.Resources.resources
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.vbproj.GenerateResource.Cache
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.exe
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.pdb
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.xml
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.frmMain.resources
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+D:\Developments\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.pdb
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\MySql.Data.dll
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\System.Data.dll
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\System.Deployment.dll
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\System.dll
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\System.Drawing.dll
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\System.Windows.Forms.dll
+D:\Developments\Applications\DestEDI\DestEDI\bin\Debug\System.Xml.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.pdb
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.exe
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.pdb
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\DestEDI.xml
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\MySql.Data.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\System.Data.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\System.Deployment.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\System.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\System.Drawing.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\System.Windows.Forms.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\bin\Debug\System.Xml.dll
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\ResolveAssemblyReference.cache
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.frmMain.resources
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.frmOptions.resources
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.Resources.resources
+\\192.168.0.138\Other Program\Simon_Dev\Applications\DestEDI\DestEDI\obj\Debug\DestEDI.vbproj.GenerateResource.Cache
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.pdb
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\DestEDI.exe
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\DestEDI.pdb
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\DestEDI.xml
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\System.Data.dll
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\System.Deployment.dll
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\System.dll
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\System.Drawing.dll
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\System.Windows.Forms.dll
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\bin\Debug\System.Xml.dll
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.frmMain.resources
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.frmOptions.resources
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.Resources.resources
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Debug\DestEDI.vbproj.GenerateResource.Cache
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Release\DestEDI.frmMain.resources
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Release\DestEDI.frmOptions.resources
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Release\DestEDI.Resources.resources
+C:\Users\Terence Cheung\Desktop\DestEDI\DestEDI\obj\Release\DestEDI.vbproj.GenerateResource.Cache
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.pdb
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\DestEDI.exe
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\DestEDI.pdb
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\DestEDI.xml
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\System.Data.dll
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\System.Deployment.dll
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\System.dll
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\System.Drawing.dll
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\System.Windows.Forms.dll
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\System.Xml.dll
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.frmMain.resources
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.frmOptions.resources
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.Resources.resources
+C:\Users\405065591\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.vbproj.GenerateResource.Cache
+C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI\DestEDI\obj\Debug\DestEDI.pdb

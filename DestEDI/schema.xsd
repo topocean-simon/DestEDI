@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="Shipment">
+  <xs:complexType mixed="true">
+    <xs:sequence>
+      <xs:element name="RefId" type="xs:integer"/>
+      <xs:element name="ShipmentFrom" type="xs:string"/>
+      <xs:element name="ShipmentTo" type="xs:string"/>
+      <xs:element name="BLNo" type="xs:string"/>
+      <xs:element name="MBLNo" type="xs:string"/>
+      <xs:element name="SONo" type="xs:string"/>
+      <xs:element name="Year" type="xs:integer"/>
+      <xs:element name="Week" type="xs:integer"/>
+      <xs:element name="Mode" type="xs:string"/>
+      <xs:element name="Status" type="xs:integer"/>
+      <xs:element name="Warehouse" type="xs:string"/>
+      <xs:element name="LoadingPort" type="xs:string"/>
+      <xs:element name="DischargePort" type="xs:string"/>
+      <xs:element name="CarrierDestination" type="xs:string"/>
+      <xs:element name="AgentCommodity" type="xs:string"/>
+      <xs:element name="OCF" type="xs:string"/>
+      <xs:element name="AT" type="xs:string"/>
+      <xs:element name="CarrierRemark" type="xs:string"/>
+      <xs:element name="IsDoor" type="xs:boolean"/>
+      <xs:element name="DoorArrivalDate" type="xs:string"/>
+      <xs:element name="IPIRamp" type="xs:string"/>
+      <xs:element name="RampETA" type="xs:dateTime"/>
+      <xs:element name="DoorETA" type="xs:dateTime"/>
+      <xs:element name="OnBoard" type="xs:dateTime"/>
+      <xs:element name="ETD" type="xs:dateTime"/>
+      <xs:element name="ATD" type="xs:dateTime"/>
+      <xs:element name="ETA" type="xs:dateTime"/>
+      <xs:element name="Traffic" type="xs:string"/>
+      <xs:element name="Marks">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="MarkDesc" type="xs:string" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Packing">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="PackingDesc" type="xs:string" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Remark" type="xs:string"/>
+      <xs:element name="CargoReceiptDate" type="xs:dateTime"/>
+      <xs:element name="BookingDate" type="xs:dateTime"/>
+      <xs:element name="TelexStatus" type="xs:string"/>
+      <xs:element name="TelexStatusDate" type="xs:dateTime"/>
+      <xs:element name="IsAMS" type="xs:boolean"/>
+      <xs:element name="HeadLoad" type="xs:boolean"/>
+      <xs:element name="AMSNo" type="xs:string"/>
+      <xs:element name="ISFConfirmationNo" type="xs:string"/>
+      <xs:element name="ISFNotes" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>
