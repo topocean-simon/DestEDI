@@ -69,7 +69,7 @@ Public Class Cls11A_XML
                         BrhCd = .Item("BrhCd").ToString
 
                         If My.Settings.DBType = 0 Then
-                            sql = "CALL usp_Gen11DXML_TEXT1('" & BkhRefId & "');"
+                            sql = "CALL usp_Gen11DXML ('" & BkhRefId & "');"
 
                             cmd = Nothing
                             sda = Nothing
@@ -115,26 +115,28 @@ Public Class Cls11A_XML
                         Content = ""
 
                         If ds2.Tables(0).Rows.Count > 0 Then
-                            _EDIStr = "<EDI>"
 
-                            'For j = 0 To ds2.Tables(0).Rows.Count - 1
+                            If My.Settings.DBType = 0 Then
+                                _EDIStr = "<EDI>"
 
-                            '_EDIStr &= "<Booking>"
-                            'With ds2.Tables(0).Rows(j)
+                                For j = 0 To ds2.Tables(0).Rows.Count - 1
+                                    _EDIStr &= "<Booking>"
 
-                            'For k = 0 To ds2.Tables(0).Columns.Count - 1
+                                    With ds2.Tables(0).Rows(j)
+                                        For k = 0 To ds2.Tables(0).Columns.Count - 1
+                                            _EDIStr &= "<" & ds2.Tables(0).Columns(k).ToString().Trim() & ">" & common.replaceXMLChar(.Item(ds2.Tables(0).Columns(k).ToString().Trim()).ToString) & "</" & ds2.Tables(0).Columns(k).ToString().Trim() & ">"
+                                        Next
+                                    End With
 
-                            '_EDIStr &= "<" & ds2.Tables(0).Columns(k).ToString().Trim() & ">" & common.replaceXMLChar(.Item(ds2.Tables(0).Columns(k).ToString().Trim()).ToString) & "</" & ds2.Tables(0).Columns(k).ToString().Trim() & ">"
-                            'Next
+                                    _EDIStr &= "</Booking>"
+                                Next
+                            Else
+                                _EDIStr = "<EDI>"
 
-                            'End With
-                            '_EDIStr &= "</Booking>"
+                                Content = common.NullVal(ds2.Tables(0).Rows(0).Item("EDIStr"), "")
 
-                            'Next
-
-                            Content = common.NullVal(ds2.Tables(0).Rows(0).Item("EDIStr"), "")
-
-                            _EDIStr &= ds2.Tables(0).Rows(0).Item("EDIStr")
+                                _EDIStr &= ds2.Tables(0).Rows(0).Item("EDIStr")
+                            End If
 
                             _EDIStr &= "</EDI>"
 
@@ -180,10 +182,11 @@ Public Class Cls11A_XML
                                 ds4.Clear()
                             End If
 
-                            If Content <> "" Then
-                                Dim writer As XmlWriter = XmlWriter.Create(fullpath, settings)
-                                xmlDoc.Save(writer)
-                            End If
+                            'If Content <> "" Then
+                            Dim writer As XmlWriter = XmlWriter.Create(fullpath, settings)
+
+                            xmlDoc.Save(writer)
+                            'End If
 
                             common.showScreenMsg("Export 11A XML Success", 1)
 
@@ -236,13 +239,13 @@ Public Class Cls11A_XML
                             End If
                         End If
 
-                        ds2.Clear()
-                        sda.Dispose()
-                        'sqlConn.Dispose()
-                        '    End If
+        ds2.Clear()
+        sda.Dispose()
+        'sqlConn.Dispose()
+        '    End If
 
-                        ' Return message to screen
-                        common.showScreenMsg("11A XML exported successfully (bkhRefId: " & BkhRefId & ")")
+        ' Return message to screen
+        common.showScreenMsg("11A XML exported successfully (bkhRefId: " & BkhRefId & ")")
                     End With
                 Catch ex As Exception
                     common.showScreenMsg("Error found in exporting 11A XML (BkhRefId: " & BkhRefId & ")")
