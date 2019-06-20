@@ -213,26 +213,49 @@ Public Class frmMain
         Dim common As New common
         Dim clsEmail As New ClsEmail
 
-        Try
-            _11A_XML.export11A_XML()
-        Catch ex As Exception
-            common.showScreenMsg("Error captured from exporting 11A XML.")
-            common.SaveLog("Error captured from exporting 11A XML." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+        If My.Settings.Start11A Then
+            Try
+                _11A_XML.export11A_XML()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from exporting 11A XML.")
+                common.SaveLog("Error captured from exporting 11A XML." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
 
-            ' Send Error Email
-            clsEmail.sendAckEmail("11A EDI", ex.Message, 2)
-        End Try
+                ' Send Error Email
+                clsEmail.sendAckEmail("11A EDI", ex.Message, 2)
+            End Try
 
-        ' Generate Agent EDI
-        Try
-            agentEDI.exportAgentEDI_MGF()
-        Catch ex As Exception
-            common.showScreenMsg("Error captured from exporting Agent EDI (MGF).")
-            common.SaveLog("Error captured from exporting Agent EDI (MGF)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+            _11A_XML = Nothing
+        End If
 
-            ' Send Error Email
-            clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
-        End Try
+        If My.Settings.StartMGF Then
+            ' Generate Agent EDI
+            Try
+                agentEDI.exportAgentEDI_MGF()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from exporting Agent EDI (MGF).")
+                common.SaveLog("Error captured from exporting Agent EDI (MGF)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+
+                ' Send Error Email
+                clsEmail.sendAckEmail("Agent MGF EDI", ex.Message, 2)
+            End Try
+
+            agentEDI = Nothing
+        End If
+
+        If My.Settings.StartVAT Then
+            ' Generate Agent EDI
+            Try
+                agentEDI.exportAgentEDI_VAT()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from exporting Agent EDI (VAT).")
+                common.SaveLog("Error captured from exporting Agent EDI (VAT)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+
+                ' Send Error Email
+                clsEmail.sendAckEmail("Agent VAT EDI", ex.Message, 2)
+            End Try
+
+            agentEDI = Nothing
+        End If
 
         ' Generate Agent EDI (AllBridge) Suspense
         'Try
@@ -245,20 +268,22 @@ Public Class frmMain
         '    clsEmail.sendAckEmail("Agent EDI", ex.Message, 2)
         'End Try
 
-        'Generate(Dest.EDI)
-        Try
-            destEDI.exportDestEDI()
-        Catch ex As Exception
-            common.showScreenMsg("Error captured from exporting Dest EDI.")
-            common.SaveLog("Error captured from exporting Dest EDI." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+        If My.Settings.StartUSA Then
+            'Generate(Dest.EDI)
+            Try
+                destEDI.exportDestEDI()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from exporting Dest EDI.")
+                common.SaveLog("Error captured from exporting Dest EDI." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
 
-            ' Send Error Email
-            clsEmail.sendAckEmail("Dest EDI", ex.Message, 2)
-        End Try
+                ' Send Error Email
+                clsEmail.sendAckEmail("Dest EDI", ex.Message, 2)
+            End Try
+
+            destEDI = Nothing
+        End If
 
         ' Remove object
-        agentEDI = Nothing
-        destEDI = Nothing
         common = Nothing
         clsEmail = Nothing
 

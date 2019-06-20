@@ -25,6 +25,12 @@ Partial Class frmOptions
         Me.btnExit = New System.Windows.Forms.Button
         Me.tabOptions = New System.Windows.Forms.TabControl
         Me.tabGnlSetting = New System.Windows.Forms.TabPage
+        Me.chkStartVAT = New System.Windows.Forms.CheckBox
+        Me.chkStartMGF = New System.Windows.Forms.CheckBox
+        Me.chkStart11A = New System.Windows.Forms.CheckBox
+        Me.chkStartUSA = New System.Windows.Forms.CheckBox
+        Me.txtExportPath11A = New System.Windows.Forms.TextBox
+        Me.Label20 = New System.Windows.Forms.Label
         Me.Label19 = New System.Windows.Forms.Label
         Me.txtSvrID = New System.Windows.Forms.TextBox
         Me.chkImport = New System.Windows.Forms.CheckBox
@@ -97,8 +103,6 @@ Partial Class frmOptions
         Me.btnFTP_Save = New System.Windows.Forms.Button
         Me.Label32 = New System.Windows.Forms.Label
         Me.cobFTP_Origin = New System.Windows.Forms.ComboBox
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.txtExportPath11A = New System.Windows.Forms.TextBox
         Me.tabOptions.SuspendLayout()
         Me.tabGnlSetting.SuspendLayout()
         Me.tabODBC.SuspendLayout()
@@ -107,7 +111,7 @@ Partial Class frmOptions
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(470, 420)
+        Me.btnExit.Location = New System.Drawing.Point(466, 453)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(75, 23)
         Me.btnExit.TabIndex = 11
@@ -122,11 +126,15 @@ Partial Class frmOptions
         Me.tabOptions.Location = New System.Drawing.Point(12, 12)
         Me.tabOptions.Name = "tabOptions"
         Me.tabOptions.SelectedIndex = 0
-        Me.tabOptions.Size = New System.Drawing.Size(533, 402)
+        Me.tabOptions.Size = New System.Drawing.Size(533, 435)
         Me.tabOptions.TabIndex = 10
         '
         'tabGnlSetting
         '
+        Me.tabGnlSetting.Controls.Add(Me.chkStartVAT)
+        Me.tabGnlSetting.Controls.Add(Me.chkStartMGF)
+        Me.tabGnlSetting.Controls.Add(Me.chkStart11A)
+        Me.tabGnlSetting.Controls.Add(Me.chkStartUSA)
         Me.tabGnlSetting.Controls.Add(Me.txtExportPath11A)
         Me.tabGnlSetting.Controls.Add(Me.Label20)
         Me.tabGnlSetting.Controls.Add(Me.Label19)
@@ -159,10 +167,66 @@ Partial Class frmOptions
         Me.tabGnlSetting.Location = New System.Drawing.Point(4, 22)
         Me.tabGnlSetting.Name = "tabGnlSetting"
         Me.tabGnlSetting.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGnlSetting.Size = New System.Drawing.Size(525, 376)
+        Me.tabGnlSetting.Size = New System.Drawing.Size(525, 409)
         Me.tabGnlSetting.TabIndex = 0
         Me.tabGnlSetting.Text = "General"
         Me.tabGnlSetting.UseVisualStyleBackColor = True
+        '
+        'chkStartVAT
+        '
+        Me.chkStartVAT.AutoSize = True
+        Me.chkStartVAT.Location = New System.Drawing.Point(346, 331)
+        Me.chkStartVAT.Name = "chkStartVAT"
+        Me.chkStartVAT.Size = New System.Drawing.Size(49, 17)
+        Me.chkStartVAT.TabIndex = 33
+        Me.chkStartVAT.Text = "VAT"
+        Me.chkStartVAT.UseVisualStyleBackColor = True
+        '
+        'chkStartMGF
+        '
+        Me.chkStartMGF.AutoSize = True
+        Me.chkStartMGF.Location = New System.Drawing.Point(281, 331)
+        Me.chkStartMGF.Name = "chkStartMGF"
+        Me.chkStartMGF.Size = New System.Drawing.Size(50, 17)
+        Me.chkStartMGF.TabIndex = 32
+        Me.chkStartMGF.Text = "MGF"
+        Me.chkStartMGF.UseVisualStyleBackColor = True
+        '
+        'chkStart11A
+        '
+        Me.chkStart11A.AutoSize = True
+        Me.chkStart11A.Location = New System.Drawing.Point(215, 331)
+        Me.chkStart11A.Name = "chkStart11A"
+        Me.chkStart11A.Size = New System.Drawing.Size(48, 17)
+        Me.chkStart11A.TabIndex = 31
+        Me.chkStart11A.Text = "11A"
+        Me.chkStart11A.UseVisualStyleBackColor = True
+        '
+        'chkStartUSA
+        '
+        Me.chkStartUSA.AutoSize = True
+        Me.chkStartUSA.Location = New System.Drawing.Point(146, 331)
+        Me.chkStartUSA.Name = "chkStartUSA"
+        Me.chkStartUSA.Size = New System.Drawing.Size(50, 17)
+        Me.chkStartUSA.TabIndex = 30
+        Me.chkStartUSA.Text = "USA"
+        Me.chkStartUSA.UseVisualStyleBackColor = True
+        '
+        'txtExportPath11A
+        '
+        Me.txtExportPath11A.Location = New System.Drawing.Point(146, 87)
+        Me.txtExportPath11A.Name = "txtExportPath11A"
+        Me.txtExportPath11A.Size = New System.Drawing.Size(347, 21)
+        Me.txtExportPath11A.TabIndex = 29
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(22, 90)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(99, 13)
+        Me.Label20.TabIndex = 28
+        Me.Label20.Text = "Export Path 11A"
         '
         'Label19
         '
@@ -291,7 +355,7 @@ Partial Class frmOptions
         '
         'btnGCancel
         '
-        Me.btnGCancel.Location = New System.Drawing.Point(418, 331)
+        Me.btnGCancel.Location = New System.Drawing.Point(418, 375)
         Me.btnGCancel.Name = "btnGCancel"
         Me.btnGCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnGCancel.TabIndex = 12
@@ -300,7 +364,7 @@ Partial Class frmOptions
         '
         'btnGSave
         '
-        Me.btnGSave.Location = New System.Drawing.Point(337, 331)
+        Me.btnGSave.Location = New System.Drawing.Point(337, 375)
         Me.btnGSave.Name = "btnGSave"
         Me.btnGSave.Size = New System.Drawing.Size(75, 23)
         Me.btnGSave.TabIndex = 11
@@ -409,7 +473,7 @@ Partial Class frmOptions
         Me.tabODBC.Location = New System.Drawing.Point(4, 22)
         Me.tabODBC.Name = "tabODBC"
         Me.tabODBC.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabODBC.Size = New System.Drawing.Size(525, 376)
+        Me.tabODBC.Size = New System.Drawing.Size(525, 409)
         Me.tabODBC.TabIndex = 1
         Me.tabODBC.Text = "ODBC"
         Me.tabODBC.UseVisualStyleBackColor = True
@@ -573,7 +637,7 @@ Partial Class frmOptions
         Me.tabFTP.Controls.Add(Me.cobFTP_Origin)
         Me.tabFTP.Location = New System.Drawing.Point(4, 22)
         Me.tabFTP.Name = "tabFTP"
-        Me.tabFTP.Size = New System.Drawing.Size(525, 376)
+        Me.tabFTP.Size = New System.Drawing.Size(525, 409)
         Me.tabFTP.TabIndex = 2
         Me.tabFTP.Text = "FTP Servers"
         Me.tabFTP.UseVisualStyleBackColor = True
@@ -822,27 +886,11 @@ Partial Class frmOptions
         Me.cobFTP_Origin.Size = New System.Drawing.Size(249, 21)
         Me.cobFTP_Origin.TabIndex = 1
         '
-        'Label20
-        '
-        Me.Label20.AutoSize = True
-        Me.Label20.Location = New System.Drawing.Point(22, 90)
-        Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(99, 13)
-        Me.Label20.TabIndex = 28
-        Me.Label20.Text = "Export Path 11A"
-        '
-        'txtExportPath11A
-        '
-        Me.txtExportPath11A.Location = New System.Drawing.Point(146, 87)
-        Me.txtExportPath11A.Name = "txtExportPath11A"
-        Me.txtExportPath11A.Size = New System.Drawing.Size(347, 21)
-        Me.txtExportPath11A.TabIndex = 29
-        '
         'frmOptions
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(560, 458)
+        Me.ClientSize = New System.Drawing.Size(560, 486)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.tabOptions)
         Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -937,5 +985,9 @@ Partial Class frmOptions
     Friend WithEvents txtInterval As System.Windows.Forms.TextBox
     Friend WithEvents txtExportPath11A As System.Windows.Forms.TextBox
     Friend WithEvents Label20 As System.Windows.Forms.Label
+    Friend WithEvents chkStartVAT As System.Windows.Forms.CheckBox
+    Friend WithEvents chkStartMGF As System.Windows.Forms.CheckBox
+    Friend WithEvents chkStart11A As System.Windows.Forms.CheckBox
+    Friend WithEvents chkStartUSA As System.Windows.Forms.CheckBox
 
 End Class

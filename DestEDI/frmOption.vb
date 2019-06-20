@@ -3,6 +3,7 @@ Public Class frmOptions
     Dim cn As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Origin_FTP.accdb;Persist Security Info=False;"
 
     Private Sub frmOptions_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
         Dim clsCommon As New common
 
         Try
@@ -13,6 +14,11 @@ Public Class frmOptions
             Else
                 chkExport.Checked = False
             End If
+
+            chkStartUSA.Checked = My.Settings.StartUSA
+            chkStart11A.Checked = My.Settings.Start11A
+            chkStartMGF.Checked = My.Settings.StartMGF
+            chkStartVAT.Checked = My.Settings.StartVAT
 
             txtExportPath.Text = My.Settings.ExportPath
             txtExportPath11A.Text = My.Settings.ExportPath11A
@@ -42,18 +48,27 @@ Public Class frmOptions
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub btnGSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGSave.Click
+
         Dim clsCommon As New common
 
         Try
             My.Settings.ServerID = Trim(txtSvrID.Text)
+
             If chkExport.Checked = True Then
                 My.Settings.EDIType = 0
             Else
                 My.Settings.EDIType = 1
             End If
+
+            My.Settings.StartUSA = chkStartUSA.Checked
+            My.Settings.Start11A = chkStart11A.Checked
+            My.Settings.StartMGF = chkStartMGF.Checked
+            My.Settings.StartVAT = chkStartVAT.Checked
+
             My.Settings.ExportPath = Trim(txtExportPath.Text)
             My.Settings.ImportPath = Trim(txtImportPath.Text)
             My.Settings.CompletePath = Trim(txtCompletePath.Text)
@@ -78,9 +93,11 @@ Public Class frmOptions
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub btnGCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGCancel.Click
+
         Dim clsCommon As New common
 
         Try
@@ -109,9 +126,11 @@ Public Class frmOptions
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub btnOSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOSave.Click
+
         Dim clsCommon As New common
 
         Try
@@ -136,9 +155,11 @@ Public Class frmOptions
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub btnOCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOCancel.Click
+
         Dim clsCommon As New common
 
         Try
@@ -157,17 +178,21 @@ Public Class frmOptions
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub btnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExit.Click
+
         Me.Close()
 
         ' Release Memory
         GC.Collect()
         GC.WaitForPendingFinalizers()
+
     End Sub
 
     Private Sub btnFTP_Save_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFTP_Save.Click
+
         ' Add / Edit FTP Settings
         Dim sqlConn As New OleDb.OleDbConnection(cn)
         Dim cmd As New OleDb.OleDbCommand
@@ -205,6 +230,7 @@ Public Class frmOptions
         sda = Nothing
         cmd = Nothing
         sqlConn = Nothing
+
     End Sub
 
     Public Sub LoadFTP_Info()
