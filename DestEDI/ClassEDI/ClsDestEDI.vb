@@ -1407,6 +1407,7 @@ Public Class ClsDestEDI
     Sub GenerateShipperSection(ByVal dt As DataTable, ByVal xWriter As XmlWriter)
         Dim common As New common
         Dim i As Integer = 0
+        Dim j As Integer = 0
         Dim dataValue As String = ""
         Dim colName As String = ""
 
@@ -1417,39 +1418,38 @@ Public Class ClsDestEDI
             ' Start tag of Shipper
             xWriter.WriteStartElement("Shipper")
 
-            For i = 0 To dt.Columns.Count - 1
-                If My.Settings.DBType = 0 Then
-                    ' MySQL
-                    dataValue = common.NullVal(dt.Rows(0).Item(i).ToString, "").Replace(Chr(10), "")
-                Else
-                    ' SQL Server
-                    dataValue = common.NullVal(dt.Rows(0).Item(i).ToString, "").Replace(Chr(10), Chr(13))
-                End If
+            For j = 0 To dt.Rows.Count - 1
+                For i = 0 To dt.Columns.Count - 1
+                    If My.Settings.DBType = 0 Then
+                        ' MySQL
+                        dataValue = common.NullVal(dt.Rows(j).Item(i).ToString, "").Replace(Chr(10), "")
+                    Else
+                        ' SQL Server
+                        dataValue = common.NullVal(dt.Rows(j).Item(i).ToString, "").Replace(Chr(10), Chr(13))
+                    End If
 
-                colName = dt.Columns(i).ColumnName
+                    colName = dt.Columns(i).ColumnName
 
-                Select Case colName
-                    Case "ShpCd"
-                        ' Start tag of ShpCd
-                        xWriter.WriteStartElement(colName)
-                        xWriter.WriteAttributeString(colName, dataValue)
+                    Select Case colName
+                        Case "ShpCd"
+                            ' Start tag of ShpCd
+                            xWriter.WriteStartElement(colName)
+                            xWriter.WriteAttributeString(colName, dataValue)
 
-                    Case "ShpSAF"
-                        xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
+                        Case "ShpSAF"
+                            xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
 
-                        ' End tag of ShpCd
-                        xWriter.WriteEndElement()
+                            ' End tag of ShpCd
+                            xWriter.WriteEndElement()
 
-                    Case Else
-                        xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
-
-                End Select
-
+                        Case Else
+                            xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
+                    End Select
+                Next
             Next
 
             ' End tag of Shipper
             xWriter.WriteEndElement()
-
         End If
         ' ===============================================================================
         ' End: Shipment Details - Shipper
@@ -1469,6 +1469,7 @@ Public Class ClsDestEDI
     Sub GenerateConsigneeSection(ByVal dt As DataTable, ByVal xWriter As XmlWriter, ByVal sectionTagName As String)
         Dim common As New common
         Dim i As Integer = 0
+        Dim j As Integer = 0
         Dim dataValue As String = ""
         Dim colName As String = ""
 
@@ -1480,41 +1481,38 @@ Public Class ClsDestEDI
             ' Start tag of Consignee / Notify / AMSConsignee
             xWriter.WriteStartElement(sectionTagName)
 
-            For i = 0 To dt.Columns.Count - 1
-                If My.Settings.DBType = 0 Then
-                    ' MySQL
-                    dataValue = common.NullVal(dt.Rows(0).Item(i).ToString, "").Replace(Chr(10), "")
-                Else
-                    ' SQL Server
-                    dataValue = common.NullVal(dt.Rows(0).Item(i).ToString, "").Replace(Chr(10), Chr(13))
-                End If
+            For j = 0 To dt.Rows.Count - 1
+                For i = 0 To dt.Columns.Count - 1
+                    If My.Settings.DBType = 0 Then
+                        ' MySQL
+                        dataValue = common.NullVal(dt.Rows(j).Item(i).ToString, "").Replace(Chr(10), "")
+                    Else
+                        ' SQL Server
+                        dataValue = common.NullVal(dt.Rows(j).Item(i).ToString, "").Replace(Chr(10), Chr(13))
+                    End If
 
-                colName = dt.Columns(i).ColumnName
+                    colName = dt.Columns(i).ColumnName
 
-                Select Case colName
-                    Case "ConCd"
+                    Select Case colName
+                        Case "ConCd"
+                            ' Start tag of ConCd
+                            xWriter.WriteStartElement(colName)
+                            xWriter.WriteAttributeString(colName, dataValue)
 
+                        Case "CentralRefId"
+                            xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
 
-                        ' Start tag of ConCd
-                        xWriter.WriteStartElement(colName)
-                        xWriter.WriteAttributeString(colName, dataValue)
+                            ' End tag of ConCd
+                            xWriter.WriteEndElement()
 
-                    Case "CentralRefId"
-                        xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
-
-                        ' End tag of ConCd
-                        xWriter.WriteEndElement()
-
-                    Case Else
-                        xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
-
-                End Select
-
+                        Case Else
+                            xWriter.WriteElementString(colName, dataValue.Replace(Chr(13), " "))
+                    End Select
+                Next
             Next
 
             ' End tag of Consignee / Notify / AMSConsignee
             xWriter.WriteEndElement()
-
         End If
         ' ===============================================================================
         ' End: Shipment Details - Consignee / Notify / AMSConsignee

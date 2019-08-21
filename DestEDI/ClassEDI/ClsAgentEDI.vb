@@ -670,18 +670,34 @@ Public Class ClsAgentEDI
                         SecondColumnName = ds.Tables(0).Columns(i).ColumnName.Substring(startPosition, columnLength - startPosition)
 
                         If ds.Tables(0).Columns(i).ColumnName.Contains("#") Then
+                            If FirstColumnName = "ProfitShare" And SecondColumnName = "Amount" Then
+                                xWriter.WriteStartElement("Financials")
+                            End If
+
                             Select Case SecondColumnName
                                 Case "Code", "Amount"
                                     xWriter.WriteStartElement(FirstColumnName)
                                     xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
 
-                                Case "contact", "Currency"
-                                    xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
-                                    xWriter.WriteEndElement()
-
+                                Case "contact", "Currency", "Fax"
+                                    If FirstColumnName = "Agent" Then
+                                        If SecondColumnName = "Fax" Then
+                                            xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                            xWriter.WriteEndElement()
+                                        Else
+                                            xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                        End If
+                                    Else
+                                        xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+                                    End If
                                 Case Else
                                     xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
                             End Select
+
+                            If FirstColumnName = "ChargesTillFOB" And SecondColumnName = "Currency" Then
+                                xWriter.WriteEndElement()
+                            End If
                         Else
                             Select Case SecondColumnName
                                 Case "Name"
