@@ -317,6 +317,30 @@ Namespace My
                 Me("StartVAT") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property StartVATRec() As Boolean
+            Get
+                Return CType(Me("StartVATRec"),Boolean)
+            End Get
+            Set
+                Me("StartVATRec") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("C:\DestEDI\Anknowledge\")>  _
+        Public Property AnknowPath() As String
+            Get
+                Return CType(Me("AnknowPath"),String)
+            End Get
+            Set
+                Me("AnknowPath") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

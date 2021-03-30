@@ -71,6 +71,7 @@ Public Class ClsAgentEDI
                             cmd = Nothing
                             sda = Nothing
 
+                            sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
                             cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
                             cmd.CommandTimeout = My.Settings.Timeout
                             sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
@@ -84,6 +85,7 @@ Public Class ClsAgentEDI
                             cmd = Nothing
                             sda = Nothing
 
+                            sqlConn = New SqlClient.SqlConnection(cn)
                             cmd = New SqlClient.SqlCommand(sql, sqlConn)
                             cmd.CommandTimeout = My.Settings.Timeout
                             sda = New SqlClient.SqlDataAdapter(cmd)
@@ -479,10 +481,10 @@ Public Class ClsAgentEDI
                     With ds.Tables(0).Rows(i)
                         AelRefId = .Item("AelRefId").ToString
                         BkhRefId = .Item("AelBkhRefId").ToString
-                        AgtCode = .Item("AelAgtCode").ToString
+                        AgtCode = .Item("AelDestCode").ToString
 
                         ' Export XML file
-                        filename = Me.exportAgentEDI_File_VAT(AelRefId, BkhRefId, AgtCode)
+                        filename = Me.exportAgentEDI_File_VAT(AelRefId, BkhRefId)
 
                         ' Return message to screen
                         common.showScreenMsg("Completing Agent VAT EDI (AelRefId: " & AelRefId & ", Filename: " & filename & ")")
@@ -493,6 +495,7 @@ Public Class ClsAgentEDI
                             cmd = Nothing
                             sda = Nothing
 
+                            sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
                             cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
                             cmd.CommandTimeout = My.Settings.Timeout
                             sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
@@ -506,6 +509,7 @@ Public Class ClsAgentEDI
                             cmd = Nothing
                             sda = Nothing
 
+                            sqlConn = New SqlClient.SqlConnection(cn)
                             cmd = New SqlClient.SqlCommand(sql, sqlConn)
                             cmd.CommandTimeout = My.Settings.Timeout
                             sda = New SqlClient.SqlDataAdapter(cmd)
@@ -546,7 +550,160 @@ Public Class ClsAgentEDI
 
     End Sub
 
-    Function exportAgentEDI_File_VAT(ByVal AelRefId As Integer, ByVal BkhRefId As Integer, ByVal AgtCode As String) As String
+    Sub importAgentEDI_VAT()
+
+        Dim AnknowPath As String
+        Dim CurrentFileName As String = ""
+        Dim Sender As String = ""
+        Dim Receiver As String = ""
+        Dim Instance As String = ""
+        Dim ReceiveDte As String = ""
+        Dim ContentRef As String = ""
+        Dim BookingRef As String = ""
+        Dim Action As String = ""
+        Dim ResponseCd As String = ""
+        Dim sql As String
+        Dim cn As String
+        Dim common As New common
+
+        Dim xmlDoc As New Xml.XmlDocument()
+
+        Dim xmlHdrNode As Xml.XmlNode
+
+        Dim xmlNL1 As Xml.XmlNodeList
+        Dim xmlNL2 As Xml.XmlNodeList
+        Dim xmlNL3 As Xml.XmlNodeList
+        Dim xmlNL4 As Xml.XmlNodeList
+
+        Dim xmlNode1 As Xml.XmlNode
+        Dim xmlNode2 As Xml.XmlNode
+        Dim xmlNode3 As Xml.XmlNode
+        Dim xmlNode4 As Xml.XmlNode
+
+        Dim sqlConn As Object
+        Dim sda As Object
+        Dim cmd As Object
+        Dim ds, ds2 As New DataSet
+
+        common.showScreenMsg("Importing Agent VAT Response File", 1)
+
+        cn = "Data Source=" & My.Settings.Server & ";"
+        cn &= "Database=" & My.Settings.DB & ";"
+        cn &= "User Id=" & My.Settings.Login & ";"
+        cn &= "Password=" & My.Settings.Password & ";"
+
+        AnknowPath = My.Settings.AnknowPath
+
+        Try
+            If My.Computer.FileSystem.DirectoryExists(AnknowPath) Then
+
+                System.IO.Directory.SetCurrentDirectory(AnknowPath)
+
+                For Each CurrentFileName In System.IO.Directory.GetFiles(AnknowPath)
+                    CurrentFileName = Replace(CurrentFileName, AnknowPath, "")
+
+                    common.showScreenMsg("Agent VAT Response File: " & CurrentFileName)
+
+                    xmlDoc.Load(AnknowPath & CurrentFileName)
+
+                    xmlHdrNode = xmlDoc.SelectSingleNode("//B2BDocument")
+
+                    xmlNL1 = xmlHdrNode.ChildNodes
+
+                    For Each xmlNode1 In xmlNL1
+                        If xmlNode1.Name = "B2BDocumentHeader" Then
+                            xmlNL2 = xmlNode1.ChildNodes
+
+                            For Each xmlNode2 In xmlNL2
+                                If xmlNode2.Name = "senderIdentifier" Then
+                                    Sender = xmlNode2.InnerText
+                                End If
+                                If xmlNode2.Name = "receiverIdentifier" Then
+                                    Receiver = xmlNode2.InnerText
+                                End If
+
+                                If xmlNode2.Name = "documentIdentification" Then
+                                    xmlNL3 = xmlNode2.ChildNodes
+
+                                    For Each xmlNode3 In xmlNL3
+                                        If xmlNode3.Name = "instanceIdentifier" Then
+                                            Instance = xmlNode3.InnerText
+                                        End If
+                                        If xmlNode3.Name = "creationDateTime" Then
+                                            ReceiveDte = xmlNode3.InnerText
+                                        End If
+                                    Next
+                                End If
+                            Next
+                        End If
+
+                        If xmlNode1.Name = "DocumentContent" Then
+                            xmlNL2 = xmlNode1.ChildNodes
+
+                            For Each xmlNode2 In xmlNL2
+                                If xmlNode2.Name = "contentHeader" Then
+                                    xmlNL3 = xmlNode2.ChildNodes
+
+                                    For Each xmlNode3 In xmlNL3
+                                        If xmlNode3.Name = "contentReference" Then
+                                            ContentRef = xmlNode3.InnerText
+                                        End If
+
+                                        If xmlNode3.Name = "bookingReference" Then
+                                            BookingRef = xmlNode3.InnerText
+                                        End If
+
+                                        If xmlNode3.Name = "contentAction" Then
+                                            Action = xmlNode3.InnerText
+                                        End If
+
+                                        If xmlNode3.Name = "contentBody" Then
+                                            xmlNL4 = xmlNode3.ChildNodes
+
+                                            For Each xmlNode4 In xmlNL4
+                                                ResponseCd = xmlNode4.SelectSingleNode("responseTypeCode").InnerXml
+                                            Next
+                                        End If
+                                    Next
+                                End If
+                            Next
+                        End If
+                    Next
+
+                    sql = "EXEC usp_SaveEDI_VAT_Response '" & ContentRef & "', '"
+                    sql &= Sender & "', '"
+                    sql &= Receiver & "', '"
+                    sql &= Instance & "', '"
+                    sql &= ReceiveDte & "', '"
+                    sql &= BookingRef & "', '"
+                    sql &= Action & "', '"
+                    sql &= ResponseCd & "'"
+
+                    sqlConn = New SqlClient.SqlConnection(cn)
+                    cmd = New SqlClient.SqlCommand(sql, sqlConn)
+                    cmd.CommandTimeout = My.Settings.Timeout
+                    sda = New SqlClient.SqlDataAdapter(cmd)
+                    ds.Clear()
+                    sda.Fill(ds)
+                    sda.Dispose()
+                    sqlConn.Dispose()
+
+                    If My.Computer.FileSystem.FileExists(AnknowPath + "\Backup\" + CurrentFileName) Then
+                        My.Computer.FileSystem.DeleteFile(AnknowPath + "\Backup\" + CurrentFileName)
+                    End If
+
+                    My.Computer.FileSystem.MoveFile(AnknowPath + "\" + CurrentFileName, AnknowPath + "\Backup\" + CurrentFileName)
+                Next
+            End If
+
+        Catch ex As Exception
+            common.showScreenMsg("Error in importing Agent VAT Response file : " & CurrentFileName)
+            common.SaveLog("Error in importing Agent VAT Response file - Error Message : " & ex.Message, "E")
+        End Try
+
+    End Sub
+
+    Function exportAgentEDI_File_VAT(ByVal AelRefId As Integer, ByVal BkhRefId As Integer) As String
 
         Dim filename As String = ""
         Dim cn As String = ""
@@ -846,83 +1003,84 @@ Public Class ClsAgentEDI
                         Next
                     Next
 
-                    ' ===============================================================================
-                    ' Container Details
-                    ' ===============================================================================
-                    If ds.Tables(2).Rows.Count > 0 Then
-                        k = 0
-
-                        xWriter.WriteStartElement("Containers")
-
-                        For l = 0 To ds.Tables(2).Rows.Count - 1
-                            For j = 0 To ds.Tables(2).Columns.Count - 1
-                                dataValue = common.NullVal(ds.Tables(2).Rows(k).Item(ds.Tables(2).Columns(j).ColumnName).ToString, "").Replace(Chr(10), Chr(13))
-
-                                Select Case ds.Tables(2).Columns(j).ColumnName
-                                    Case "ContainerNumber"
-                                        currContainer = dataValue
-
-                                        If currContainer <> prevContainer Then
-                                            xWriter.WriteStartElement("Container")
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                        End If
-
-                                    Case "PONumber"
-                                        If currContainer <> prevContainer Then
-                                            xWriter.WriteStartElement("ContainsPurchaseOrderNrs")
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                            xWriter.WriteEndElement()
-                                        Else
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                        End If
-
-                                    Case "HSCode"
-                                        If currContainer <> prevContainer Then
-                                            xWriter.WriteStartElement("GoodsItems")
-                                            xWriter.WriteStartElement("GoodItem")
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                        End If
-
-                                    Case "MarkAndNumber"
-                                        If currContainer <> prevContainer Then
-                                            xWriter.WriteStartElement("MarksAndNumbers")
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                            xWriter.WriteEndElement()
-                                            xWriter.WriteEndElement()
-                                            xWriter.WriteEndElement()
-                                        End If
-
-                                    Case "VolumeInCBM"
-                                        If currContainer <> prevContainer Then
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                            xWriter.WriteEndElement()
-
-                                            prevContainer = currContainer
-                                        End If
-
-                                        ' Move to next row
-                                        k += 1
-
-                                    Case Else
-                                        If currContainer <> prevContainer Then
-                                            xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
-                                        End If
-
-                                End Select
-                            Next
-                        Next
-
-                        xWriter.WriteEndElement()
-                    End If
-                    ' ===============================================================================
-                    ' Container Details
-                    ' ===============================================================================
-
                     ' End Tag of Purchase Order
                     xWriter.WriteEndElement()
                 End If
                 ' ===============================================================================
                 ' End: Purchase Order Details
+                ' ===============================================================================
+
+                ' ===============================================================================
+                ' Container Details
+                ' ===============================================================================
+                If ds.Tables(2).Rows.Count > 0 Then
+                    k = 0
+
+                    xWriter.WriteStartElement("Containers")
+
+                    For l = 0 To ds.Tables(2).Rows.Count - 1
+                        For j = 0 To ds.Tables(2).Columns.Count - 1
+                            dataValue = common.NullVal(ds.Tables(2).Rows(k).Item(ds.Tables(2).Columns(j).ColumnName).ToString, "").Replace(Chr(10), Chr(13))
+
+                            Select Case ds.Tables(2).Columns(j).ColumnName
+                                Case "ContainerNumber"
+                                    currContainer = dataValue
+
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("Container")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                                Case "PONumber"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("ContainsPurchaseOrderNrs")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+                                    Else
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                                Case "HSCode"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("GoodsItems")
+                                        xWriter.WriteStartElement("GoodItem")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                                Case "MarkAndNumber"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("MarksAndNumbers")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+                                        xWriter.WriteEndElement()
+                                        xWriter.WriteEndElement()
+                                    End If
+
+                                Case "VolumeInCBM"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+
+                                        prevContainer = currContainer
+                                    End If
+
+                                    ' Move to next row
+                                    k += 1
+
+                                Case Else
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                            End Select
+                        Next
+                    Next
+
+                    xWriter.WriteEndElement()
+                    xWriter.WriteEndElement()
+                End If
+                ' ===============================================================================
+                ' Container Details
                 ' ===============================================================================
 
                 ' End Tag of Shipment

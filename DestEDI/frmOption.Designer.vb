@@ -25,6 +25,9 @@ Partial Class frmOptions
         Me.btnExit = New System.Windows.Forms.Button
         Me.tabOptions = New System.Windows.Forms.TabControl
         Me.tabGnlSetting = New System.Windows.Forms.TabPage
+        Me.Label21 = New System.Windows.Forms.Label
+        Me.txtAnknowPath = New System.Windows.Forms.TextBox
+        Me.chkStartVATRec = New System.Windows.Forms.CheckBox
         Me.chkStartVAT = New System.Windows.Forms.CheckBox
         Me.chkStartMGF = New System.Windows.Forms.CheckBox
         Me.chkStart11A = New System.Windows.Forms.CheckBox
@@ -111,7 +114,7 @@ Partial Class frmOptions
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(466, 453)
+        Me.btnExit.Location = New System.Drawing.Point(466, 500)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(75, 23)
         Me.btnExit.TabIndex = 11
@@ -126,11 +129,14 @@ Partial Class frmOptions
         Me.tabOptions.Location = New System.Drawing.Point(12, 12)
         Me.tabOptions.Name = "tabOptions"
         Me.tabOptions.SelectedIndex = 0
-        Me.tabOptions.Size = New System.Drawing.Size(533, 435)
+        Me.tabOptions.Size = New System.Drawing.Size(533, 482)
         Me.tabOptions.TabIndex = 10
         '
         'tabGnlSetting
         '
+        Me.tabGnlSetting.Controls.Add(Me.Label21)
+        Me.tabGnlSetting.Controls.Add(Me.txtAnknowPath)
+        Me.tabGnlSetting.Controls.Add(Me.chkStartVATRec)
         Me.tabGnlSetting.Controls.Add(Me.chkStartVAT)
         Me.tabGnlSetting.Controls.Add(Me.chkStartMGF)
         Me.tabGnlSetting.Controls.Add(Me.chkStart11A)
@@ -167,15 +173,41 @@ Partial Class frmOptions
         Me.tabGnlSetting.Location = New System.Drawing.Point(4, 22)
         Me.tabGnlSetting.Name = "tabGnlSetting"
         Me.tabGnlSetting.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGnlSetting.Size = New System.Drawing.Size(525, 409)
+        Me.tabGnlSetting.Size = New System.Drawing.Size(525, 456)
         Me.tabGnlSetting.TabIndex = 0
         Me.tabGnlSetting.Text = "General"
         Me.tabGnlSetting.UseVisualStyleBackColor = True
         '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(22, 225)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(112, 13)
+        Me.Label21.TabIndex = 36
+        Me.Label21.Text = "Anknowledge Path"
+        '
+        'txtAnknowPath
+        '
+        Me.txtAnknowPath.Location = New System.Drawing.Point(146, 222)
+        Me.txtAnknowPath.Name = "txtAnknowPath"
+        Me.txtAnknowPath.Size = New System.Drawing.Size(347, 21)
+        Me.txtAnknowPath.TabIndex = 35
+        '
+        'chkStartVATRec
+        '
+        Me.chkStartVATRec.AutoSize = True
+        Me.chkStartVATRec.Location = New System.Drawing.Point(146, 381)
+        Me.chkStartVATRec.Name = "chkStartVATRec"
+        Me.chkStartVATRec.Size = New System.Drawing.Size(158, 17)
+        Me.chkStartVATRec.TabIndex = 34
+        Me.chkStartVATRec.Text = "VAT Anknowledgement"
+        Me.chkStartVATRec.UseVisualStyleBackColor = True
+        '
         'chkStartVAT
         '
         Me.chkStartVAT.AutoSize = True
-        Me.chkStartVAT.Location = New System.Drawing.Point(346, 331)
+        Me.chkStartVAT.Location = New System.Drawing.Point(346, 358)
         Me.chkStartVAT.Name = "chkStartVAT"
         Me.chkStartVAT.Size = New System.Drawing.Size(49, 17)
         Me.chkStartVAT.TabIndex = 33
@@ -185,7 +217,7 @@ Partial Class frmOptions
         'chkStartMGF
         '
         Me.chkStartMGF.AutoSize = True
-        Me.chkStartMGF.Location = New System.Drawing.Point(281, 331)
+        Me.chkStartMGF.Location = New System.Drawing.Point(281, 358)
         Me.chkStartMGF.Name = "chkStartMGF"
         Me.chkStartMGF.Size = New System.Drawing.Size(50, 17)
         Me.chkStartMGF.TabIndex = 32
@@ -195,7 +227,7 @@ Partial Class frmOptions
         'chkStart11A
         '
         Me.chkStart11A.AutoSize = True
-        Me.chkStart11A.Location = New System.Drawing.Point(215, 331)
+        Me.chkStart11A.Location = New System.Drawing.Point(215, 358)
         Me.chkStart11A.Name = "chkStart11A"
         Me.chkStart11A.Size = New System.Drawing.Size(48, 17)
         Me.chkStart11A.TabIndex = 31
@@ -205,7 +237,7 @@ Partial Class frmOptions
         'chkStartUSA
         '
         Me.chkStartUSA.AutoSize = True
-        Me.chkStartUSA.Location = New System.Drawing.Point(146, 331)
+        Me.chkStartUSA.Location = New System.Drawing.Point(146, 358)
         Me.chkStartUSA.Name = "chkStartUSA"
         Me.chkStartUSA.Size = New System.Drawing.Size(50, 17)
         Me.chkStartUSA.TabIndex = 30
@@ -267,7 +299,7 @@ Partial Class frmOptions
         'Label39
         '
         Me.Label39.AutoSize = True
-        Me.Label39.Location = New System.Drawing.Point(22, 307)
+        Me.Label39.Location = New System.Drawing.Point(22, 334)
         Me.Label39.Name = "Label39"
         Me.Label39.Size = New System.Drawing.Size(87, 13)
         Me.Label39.TabIndex = 23
@@ -275,7 +307,7 @@ Partial Class frmOptions
         '
         'txtTechSupport
         '
-        Me.txtTechSupport.Location = New System.Drawing.Point(146, 304)
+        Me.txtTechSupport.Location = New System.Drawing.Point(146, 331)
         Me.txtTechSupport.Name = "txtTechSupport"
         Me.txtTechSupport.Size = New System.Drawing.Size(347, 21)
         Me.txtTechSupport.TabIndex = 10
@@ -331,7 +363,7 @@ Partial Class frmOptions
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(251, 257)
+        Me.Label13.Location = New System.Drawing.Point(251, 284)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(65, 13)
         Me.Label13.TabIndex = 15
@@ -340,7 +372,7 @@ Partial Class frmOptions
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(22, 252)
+        Me.Label14.Location = New System.Drawing.Point(22, 279)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(122, 13)
         Me.Label14.TabIndex = 14
@@ -348,14 +380,14 @@ Partial Class frmOptions
         '
         'txtDuration
         '
-        Me.txtDuration.Location = New System.Drawing.Point(146, 249)
+        Me.txtDuration.Location = New System.Drawing.Point(146, 276)
         Me.txtDuration.Name = "txtDuration"
         Me.txtDuration.Size = New System.Drawing.Size(99, 21)
         Me.txtDuration.TabIndex = 8
         '
         'btnGCancel
         '
-        Me.btnGCancel.Location = New System.Drawing.Point(418, 375)
+        Me.btnGCancel.Location = New System.Drawing.Point(418, 413)
         Me.btnGCancel.Name = "btnGCancel"
         Me.btnGCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnGCancel.TabIndex = 12
@@ -364,7 +396,7 @@ Partial Class frmOptions
         '
         'btnGSave
         '
-        Me.btnGSave.Location = New System.Drawing.Point(337, 375)
+        Me.btnGSave.Location = New System.Drawing.Point(337, 413)
         Me.btnGSave.Name = "btnGSave"
         Me.btnGSave.Size = New System.Drawing.Size(75, 23)
         Me.btnGSave.TabIndex = 11
@@ -374,7 +406,7 @@ Partial Class frmOptions
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(22, 280)
+        Me.Label6.Location = New System.Drawing.Point(22, 307)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(67, 13)
         Me.Label6.TabIndex = 10
@@ -382,7 +414,7 @@ Partial Class frmOptions
         '
         'txtSMTP
         '
-        Me.txtSMTP.Location = New System.Drawing.Point(146, 277)
+        Me.txtSMTP.Location = New System.Drawing.Point(146, 304)
         Me.txtSMTP.Name = "txtSMTP"
         Me.txtSMTP.Size = New System.Drawing.Size(347, 21)
         Me.txtSMTP.TabIndex = 9
@@ -390,7 +422,7 @@ Partial Class frmOptions
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(251, 227)
+        Me.Label5.Location = New System.Drawing.Point(251, 254)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(65, 13)
         Me.Label5.TabIndex = 8
@@ -399,7 +431,7 @@ Partial Class frmOptions
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(22, 227)
+        Me.Label4.Location = New System.Drawing.Point(22, 254)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(89, 13)
         Me.Label4.TabIndex = 7
@@ -407,7 +439,7 @@ Partial Class frmOptions
         '
         'txtInterval
         '
-        Me.txtInterval.Location = New System.Drawing.Point(146, 222)
+        Me.txtInterval.Location = New System.Drawing.Point(146, 249)
         Me.txtInterval.Name = "txtInterval"
         Me.txtInterval.Size = New System.Drawing.Size(99, 21)
         Me.txtInterval.TabIndex = 7
@@ -473,7 +505,7 @@ Partial Class frmOptions
         Me.tabODBC.Location = New System.Drawing.Point(4, 22)
         Me.tabODBC.Name = "tabODBC"
         Me.tabODBC.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabODBC.Size = New System.Drawing.Size(525, 409)
+        Me.tabODBC.Size = New System.Drawing.Size(525, 456)
         Me.tabODBC.TabIndex = 1
         Me.tabODBC.Text = "ODBC"
         Me.tabODBC.UseVisualStyleBackColor = True
@@ -637,7 +669,7 @@ Partial Class frmOptions
         Me.tabFTP.Controls.Add(Me.cobFTP_Origin)
         Me.tabFTP.Location = New System.Drawing.Point(4, 22)
         Me.tabFTP.Name = "tabFTP"
-        Me.tabFTP.Size = New System.Drawing.Size(525, 409)
+        Me.tabFTP.Size = New System.Drawing.Size(525, 456)
         Me.tabFTP.TabIndex = 2
         Me.tabFTP.Text = "FTP Servers"
         Me.tabFTP.UseVisualStyleBackColor = True
@@ -890,7 +922,7 @@ Partial Class frmOptions
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(560, 486)
+        Me.ClientSize = New System.Drawing.Size(560, 532)
         Me.Controls.Add(Me.btnExit)
         Me.Controls.Add(Me.tabOptions)
         Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -989,5 +1021,8 @@ Partial Class frmOptions
     Friend WithEvents chkStartMGF As System.Windows.Forms.CheckBox
     Friend WithEvents chkStart11A As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartUSA As System.Windows.Forms.CheckBox
+    Friend WithEvents chkStartVATRec As System.Windows.Forms.CheckBox
+    Friend WithEvents Label21 As System.Windows.Forms.Label
+    Friend WithEvents txtAnknowPath As System.Windows.Forms.TextBox
 
 End Class

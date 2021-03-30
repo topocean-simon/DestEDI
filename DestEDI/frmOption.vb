@@ -19,6 +19,7 @@ Public Class frmOptions
             chkStart11A.Checked = My.Settings.Start11A
             chkStartMGF.Checked = My.Settings.StartMGF
             chkStartVAT.Checked = My.Settings.StartVAT
+            chkStartVATRec.Checked = My.Settings.StartVATRec
 
             txtExportPath.Text = My.Settings.ExportPath
             txtExportPath11A.Text = My.Settings.ExportPath11A
@@ -26,6 +27,7 @@ Public Class frmOptions
             txtCompletePath.Text = My.Settings.CompletePath
             txtErrorPath.Text = My.Settings.ErrorFilePath
             txtLogPath.Text = My.Settings.LogPath
+            txtAnknowPath.Text = My.Settings.AnknowPath
             txtInterval.Text = My.Settings.TimeInterval
             txtDuration.Text = My.Settings.Duration
             txtSMTP.Text = My.Settings.SMTP
@@ -68,12 +70,14 @@ Public Class frmOptions
             My.Settings.Start11A = chkStart11A.Checked
             My.Settings.StartMGF = chkStartMGF.Checked
             My.Settings.StartVAT = chkStartVAT.Checked
+            My.Settings.StartVATRec = chkStartVATRec.Checked
 
             My.Settings.ExportPath = Trim(txtExportPath.Text)
             My.Settings.ImportPath = Trim(txtImportPath.Text)
             My.Settings.CompletePath = Trim(txtCompletePath.Text)
             My.Settings.ErrorFilePath = Trim(txtErrorPath.Text)
             My.Settings.LogPath = Trim(txtLogPath.Text)
+            My.Settings.AnknowPath = Trim(txtAnknowPath.Text)
             My.Settings.TimeInterval = Trim(txtInterval.Text)
             My.Settings.Duration = Trim(txtDuration.Text)
             My.Settings.SMTP = Trim(txtSMTP.Text)

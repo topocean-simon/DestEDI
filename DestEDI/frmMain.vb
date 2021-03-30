@@ -208,6 +208,7 @@ Public Class frmMain
     Private Sub Timer2_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer2.Tick
 
         Dim agentEDI As New ClsAgentEDI
+        Dim impagentEDI As New ClsAgentEDI
         Dim destEDI As New ClsDestEDI
         Dim _11A_XML As New Cls11A_XML
         Dim common As New common
@@ -242,6 +243,21 @@ Public Class frmMain
             agentEDI = Nothing
         End If
 
+        If My.Settings.StartVATRec Then
+            ' Receiving Agent EDI
+            Try
+                impagentEDI.importAgentEDI_VAT()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from importing Agent EDI (VAT).")
+                common.SaveLog("Error captured from importing Agent EDI (VAT)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+
+                ' Send Error Email
+                clsEmail.sendAckEmail("Agent Importing VAT EDI", ex.Message, 2)
+            End Try
+
+            impagentEDI = Nothing
+        End If
+
         If My.Settings.StartVAT Then
             ' Generate Agent EDI
             Try
@@ -251,7 +267,7 @@ Public Class frmMain
                 common.SaveLog("Error captured from exporting Agent EDI (VAT)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
 
                 ' Send Error Email
-                clsEmail.sendAckEmail("Agent VAT EDI", ex.Message, 2)
+                clsEmail.sendAckEmail("Agent Exporting VAT EDI", ex.Message, 2)
             End Try
 
             agentEDI = Nothing

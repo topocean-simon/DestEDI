@@ -154,3 +154,25 @@ C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI_new_V2\Dest
 C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI_new_V2\DestEDI\obj\Debug\DestEDI.frmOptions.resources
 C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI_new_V2\DestEDI\obj\Debug\DestEDI.Resources.resources
 C:\Users\Benjamin Vong\Documents\Visual Studio 2005\Projects\DestEDI_new_V2\DestEDI\obj\Debug\DestEDI.vbproj.GenerateResource.Cache
+C:\git\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.pdb
+C:\git\DestEDI\DestEDI\bin\Debug\DestEDI.exe
+C:\git\DestEDI\DestEDI\bin\Debug\DestEDI.pdb
+C:\git\DestEDI\DestEDI\bin\Debug\DestEDI.xml
+C:\git\DestEDI\DestEDI\bin\Debug\System.Data.dll
+C:\git\DestEDI\DestEDI\bin\Debug\System.Deployment.dll
+C:\git\DestEDI\DestEDI\bin\Debug\System.dll
+C:\git\DestEDI\DestEDI\bin\Debug\System.Drawing.dll
+C:\git\DestEDI\DestEDI\bin\Debug\System.Windows.Forms.dll
+C:\git\DestEDI\DestEDI\bin\Debug\System.Xml.dll
+C:\git\DestEDI\DestEDI\obj\Debug\ResolveAssemblyReference.cache
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.frmMain.resources
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.frmOptions.resources
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.Resources.resources
+C:\git\DestEDI\DestEDI\obj\Debug\DestEDI.vbproj.GenerateResource.Cache
+D:\DestEDI\DestEDI\bin\Debug\DestEDI.exe.config
+D:\DestEDI\DestEDI\obj\Debug\DestEDI.exe
+D:\DestEDI\DestEDI\obj\Debug\DestEDI.xml
+D:\DestEDI\DestEDI\obj\Debug\DestEDI.pdb
