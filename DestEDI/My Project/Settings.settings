@@ -74,5 +74,8 @@
     <Setting Name="AnknowPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\DestEDI\Anknowledge\</Value>
     </Setting>
+    <Setting Name="StartAVN" Type="System.String" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

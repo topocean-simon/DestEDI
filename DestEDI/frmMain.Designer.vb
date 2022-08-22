@@ -105,12 +105,12 @@ Partial Class frmMain
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem1})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(97, 26)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(95, 26)
         '
         'ExitToolStripMenuItem1
         '
         Me.ExitToolStripMenuItem1.Name = "ExitToolStripMenuItem1"
-        Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(96, 22)
+        Me.ExitToolStripMenuItem1.Size = New System.Drawing.Size(94, 22)
         Me.ExitToolStripMenuItem1.Text = "Exit"
         '
         'Label1
@@ -118,9 +118,9 @@ Partial Class frmMain
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(12, 272)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(154, 13)
+        Me.Label1.Size = New System.Drawing.Size(153, 13)
         Me.Label1.TabIndex = 6
-        Me.Label1.Text = "Program Version 1.0.0.22"
+        Me.Label1.Text = "Program Version 1.0.0.23"
         '
         'Timer4
         '

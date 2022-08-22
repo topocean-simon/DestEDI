@@ -273,6 +273,21 @@ Public Class frmMain
             agentEDI = Nothing
         End If
 
+        If My.Settings.StartAVN Then
+            ' Generate Agent EDI
+            Try
+                agentEDI.exportAgentEDI_AVN()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from exporting Agent EDI (AVN).")
+                common.SaveLog("Error captured from exporting Agent EDI (AVN)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+
+                ' Send Error Email
+                clsEmail.sendAckEmail("Agent Exporting AVN EDI", ex.Message, 2)
+            End Try
+
+            agentEDI = Nothing
+        End If
+
         ' Generate Agent EDI (AllBridge) Suspense
         'Try
         '    agentEDI.exportAgentEDI_Allbridge()

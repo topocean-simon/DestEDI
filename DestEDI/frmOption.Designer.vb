@@ -106,6 +106,7 @@ Partial Class frmOptions
         Me.btnFTP_Save = New System.Windows.Forms.Button
         Me.Label32 = New System.Windows.Forms.Label
         Me.cobFTP_Origin = New System.Windows.Forms.ComboBox
+        Me.chkStartAVN = New System.Windows.Forms.CheckBox
         Me.tabOptions.SuspendLayout()
         Me.tabGnlSetting.SuspendLayout()
         Me.tabODBC.SuspendLayout()
@@ -134,6 +135,7 @@ Partial Class frmOptions
         '
         'tabGnlSetting
         '
+        Me.tabGnlSetting.Controls.Add(Me.chkStartAVN)
         Me.tabGnlSetting.Controls.Add(Me.Label21)
         Me.tabGnlSetting.Controls.Add(Me.txtAnknowPath)
         Me.tabGnlSetting.Controls.Add(Me.chkStartVATRec)
@@ -199,7 +201,7 @@ Partial Class frmOptions
         Me.chkStartVATRec.AutoSize = True
         Me.chkStartVATRec.Location = New System.Drawing.Point(146, 381)
         Me.chkStartVATRec.Name = "chkStartVATRec"
-        Me.chkStartVATRec.Size = New System.Drawing.Size(158, 17)
+        Me.chkStartVATRec.Size = New System.Drawing.Size(157, 17)
         Me.chkStartVATRec.TabIndex = 34
         Me.chkStartVATRec.Text = "VAT Anknowledgement"
         Me.chkStartVATRec.UseVisualStyleBackColor = True
@@ -209,7 +211,7 @@ Partial Class frmOptions
         Me.chkStartVAT.AutoSize = True
         Me.chkStartVAT.Location = New System.Drawing.Point(346, 358)
         Me.chkStartVAT.Name = "chkStartVAT"
-        Me.chkStartVAT.Size = New System.Drawing.Size(49, 17)
+        Me.chkStartVAT.Size = New System.Drawing.Size(48, 17)
         Me.chkStartVAT.TabIndex = 33
         Me.chkStartVAT.Text = "VAT"
         Me.chkStartVAT.UseVisualStyleBackColor = True
@@ -301,7 +303,7 @@ Partial Class frmOptions
         Me.Label39.AutoSize = True
         Me.Label39.Location = New System.Drawing.Point(22, 334)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(87, 13)
+        Me.Label39.Size = New System.Drawing.Size(86, 13)
         Me.Label39.TabIndex = 23
         Me.Label39.Text = "Tech. Support"
         '
@@ -481,7 +483,7 @@ Partial Class frmOptions
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(22, 38)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(60, 13)
+        Me.Label1.Size = New System.Drawing.Size(59, 13)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "EDI Type"
         '
@@ -525,7 +527,7 @@ Partial Class frmOptions
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(18, 153)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(93, 13)
+        Me.Label18.Size = New System.Drawing.Size(92, 13)
         Me.Label18.TabIndex = 17
         Me.Label18.Text = "Database Type"
         '
@@ -730,7 +732,7 @@ Partial Class frmOptions
         Me.Label35.AutoSize = True
         Me.Label35.Location = New System.Drawing.Point(18, 261)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(56, 13)
+        Me.Label35.Size = New System.Drawing.Size(55, 13)
         Me.Label35.TabIndex = 38
         Me.Label35.Text = "DB Type"
         '
@@ -918,6 +920,16 @@ Partial Class frmOptions
         Me.cobFTP_Origin.Size = New System.Drawing.Size(249, 21)
         Me.cobFTP_Origin.TabIndex = 1
         '
+        'chkStartAVN
+        '
+        Me.chkStartAVN.AutoSize = True
+        Me.chkStartAVN.Location = New System.Drawing.Point(400, 358)
+        Me.chkStartAVN.Name = "chkStartAVN"
+        Me.chkStartAVN.Size = New System.Drawing.Size(50, 17)
+        Me.chkStartAVN.TabIndex = 37
+        Me.chkStartAVN.Text = "AVN"
+        Me.chkStartAVN.UseVisualStyleBackColor = True
+        '
         'frmOptions
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
@@ -1024,5 +1036,6 @@ Partial Class frmOptions
     Friend WithEvents chkStartVATRec As System.Windows.Forms.CheckBox
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents txtAnknowPath As System.Windows.Forms.TextBox
+    Friend WithEvents chkStartAVN As System.Windows.Forms.CheckBox
 
 End Class

@@ -550,6 +550,127 @@ Public Class ClsAgentEDI
 
     End Sub
 
+    Sub exportAgentEDI_AVN()
+
+        Dim sql As String = ""
+        Dim cn As String = ""
+        Dim i As Integer
+        Dim common As New common
+
+        Dim AelRefId As Integer = 0
+        Dim BkhRefId As Integer = 0
+        Dim AgtCode As String = ""
+
+        Dim sqlConn As Object
+        Dim sda As Object
+        Dim cmd As Object
+        Dim ds, ds2 As New DataSet
+
+        Dim filename As String = ""
+
+        cn &= "Data Source=" & My.Settings.Server & ";"
+        cn &= "Database=" & My.Settings.DB & ";"
+        cn &= "User Id=" & My.Settings.Login & ";"
+        cn &= "Password=" & My.Settings.Password & ";"
+
+        ' Return message to screen
+        common.showScreenMsg("Generate Agent AVN EDI export list", 1)
+
+        If My.Settings.DBType = 0 Then
+            ' MySQL
+            sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
+            sql = "CALL usp_AgentEDI_ExportList_AVN();"
+            cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
+            cmd.CommandTimeout = My.Settings.Timeout
+            sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
+            ds.Clear()
+            sda.Fill(ds)
+        Else
+            ' SQL Server
+            sqlConn = New SqlClient.SqlConnection(cn)
+            sql = "EXEC usp_AgentEDI_ExportList_AVN"
+            cmd = New SqlClient.SqlCommand(sql, sqlConn)
+            cmd.CommandTimeout = My.Settings.Timeout
+            sda = New SqlClient.SqlDataAdapter(cmd)
+            ds.Clear()
+            sda.Fill(ds)
+        End If
+
+        If ds.Tables(0).Rows.Count > 0 Then
+            For i = 0 To ds.Tables(0).Rows.Count - 1
+                Try
+                    With ds.Tables(0).Rows(i)
+                        AelRefId = .Item("AelRefId").ToString
+                        BkhRefId = .Item("AelBkhRefId").ToString
+                        AgtCode = .Item("AelDestCode").ToString
+
+                        ' Export XML file
+                        filename = Me.exportAgentEDI_File_AVN(AelRefId, BkhRefId)
+
+                        ' Return message to screen
+                        common.showScreenMsg("Completing Agent AVN EDI (AelRefId: " & AelRefId & ", Filename: " & filename & ")")
+
+                        If My.Settings.DBType = 0 Then
+                            sql = "CALL usp_AgentEDI_Complete('" & AelRefId & "', '" & filename & "');"
+
+                            cmd = Nothing
+                            sda = Nothing
+
+                            sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
+                            cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
+                            cmd.CommandTimeout = My.Settings.Timeout
+                            sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
+                            ds2.Clear()
+                            sda.Fill(ds2)
+                            sda.Dispose()
+                            sqlConn.Dispose()
+                        Else
+                            sql = "EXEC usp_AgentEDI_Complete '" & AelRefId & "', '" & filename & "'"
+
+                            cmd = Nothing
+                            sda = Nothing
+
+                            sqlConn = New SqlClient.SqlConnection(cn)
+                            cmd = New SqlClient.SqlCommand(sql, sqlConn)
+                            cmd.CommandTimeout = My.Settings.Timeout
+                            sda = New SqlClient.SqlDataAdapter(cmd)
+                            ds2.Clear()
+                            sda.Fill(ds2)
+                            sda.Dispose()
+                            sqlConn.Dispose()
+                        End If
+
+                        ' Return message to screen
+                        common.showScreenMsg("Agent AVN EDI exported successfully (AelRefId: " & AelRefId & ")")
+                    End With
+                Catch ex As Exception
+                    common.showScreenMsg("Error found in exporting Agent AVN EDI (AelRefId: " & AelRefId & ", BkhRefId: " & BkhRefId & ")")
+                    common.SaveLog("Error found in exporting Agent AVN EDI (AelRefId: " & AelRefId & ", BkhRefId: " & BkhRefId & ")" & Chr(13) & "Error Message: " & ex.Message, "E")
+                End Try
+            Next
+        Else
+            common.showScreenMsg("No shipments for AVN Agent EDI", 1)
+        End If
+
+        ' Remove Variables
+        sql = Nothing
+        cn = Nothing
+        i = Nothing
+        common = Nothing
+        BkhRefId = Nothing
+        AgtCode = Nothing
+        sqlConn = Nothing
+        cmd = Nothing
+        sda = Nothing
+        ds = Nothing
+        ds2 = Nothing
+
+        ' Release Memory
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+
+    End Sub
+
     Sub importAgentEDI_VAT()
 
         Dim AnknowPath As String
@@ -775,6 +896,458 @@ Public Class ClsAgentEDI
 
                 backupPath &= "VAT" & "\"
                 exportPath &= "VAT" & "\"
+
+                ' Create directory if not exist
+                If Not My.Computer.FileSystem.DirectoryExists(backupPath) Then
+                    My.Computer.FileSystem.CreateDirectory(backupPath)
+                End If
+
+                ' Delete file if exist
+                If My.Computer.FileSystem.FileExists(backupPath & filename) Then
+                    My.Computer.FileSystem.DeleteFile(backupPath & filename)
+                End If
+
+                ' Create XML file
+                xWriter = New XmlTextWriter(backupPath & filename, System.Text.Encoding.UTF8)
+
+                ' --------------------------------------------------------
+                ' XML Formatting
+                ' --------------------------------------------------------
+
+                xWriter.WriteStartDocument()
+                xWriter.Formatting = Formatting.Indented
+                xWriter.Indentation = 4
+
+                ' --------------------------------------------------------
+
+                ' Start Tag of Shipment
+                xWriter.WriteStartElement("SeaShipment")
+
+                ' ===============================================================================
+                ' Start: Shipment Details
+                ' ===============================================================================
+                For i = 0 To ds.Tables(0).Columns.Count - 1
+                    If My.Settings.DBType = 0 Then
+                        ' MySQL
+                        dataValue = common.NullVal(ds.Tables(0).Rows(0).Item(i).ToString, "").Replace(Chr(10), "")
+                    Else
+                        ' SQL Server
+                        dataValue = common.NullVal(ds.Tables(0).Rows(0).Item(i).ToString, "").Replace(Chr(10), Chr(13))
+                    End If
+
+                    If ds.Tables(0).Columns(i).ColumnName.Contains("#") Or ds.Tables(0).Columns(i).ColumnName.Contains("$") Then
+                        If ds.Tables(0).Columns(i).ColumnName.Contains("#") Then
+                            startPosition = ds.Tables(0).Columns(i).ColumnName.IndexOf("#") + 1
+                        Else
+                            startPosition = ds.Tables(0).Columns(i).ColumnName.IndexOf("$") + 1
+                        End If
+
+                        columnLength = ds.Tables(0).Columns(i).ColumnName.Length
+
+                        FirstColumnName = ds.Tables(0).Columns(i).ColumnName.Substring(0, startPosition - 1)
+                        SecondColumnName = ds.Tables(0).Columns(i).ColumnName.Substring(startPosition, columnLength - startPosition)
+
+                        If ds.Tables(0).Columns(i).ColumnName.Contains("#") Then
+                            If FirstColumnName = "ProfitShare" And SecondColumnName = "Amount" Then
+                                xWriter.WriteStartElement("Financials")
+                            End If
+
+                            Select Case SecondColumnName
+                                Case "Code", "Amount"
+                                    xWriter.WriteStartElement(FirstColumnName)
+                                    xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+
+                                Case "contact", "Currency", "Fax"
+                                    If FirstColumnName = "Agent" Then
+                                        If SecondColumnName = "Fax" Then
+                                            xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                            xWriter.WriteEndElement()
+                                        Else
+                                            xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                        End If
+                                    Else
+                                        xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+                                    End If
+                                Case Else
+                                    xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                            End Select
+
+                            If FirstColumnName = "ChargesTillFOB" And SecondColumnName = "Currency" Then
+                                xWriter.WriteEndElement()
+                            End If
+                        Else
+                            Select Case SecondColumnName
+                                Case "Name"
+                                    xWriter.WriteStartElement(FirstColumnName)
+                                    xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+
+                                Case "Code"
+                                    xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                                    xWriter.WriteEndElement()
+
+                                Case Else
+                                    xWriter.WriteElementString(SecondColumnName, dataValue.Replace(Chr(13), " "))
+                            End Select
+                        End If
+                    Else
+                        Select Case ds.Tables(0).Columns(i).ColumnName
+                            Case "Marks"
+                                dataArray = Split(dataValue, Chr(13))
+                                dataSeq = 1
+
+                                xWriter.WriteStartElement(ds.Tables(0).Columns(i).ColumnName)
+
+                                For Each dataStr As String In dataArray
+                                    dataTag = "MarkDesc" & dataSeq
+                                    xWriter.WriteElementString(dataTag, dataStr)
+                                    dataSeq += 1
+                                Next
+
+                                xWriter.WriteEndElement()
+
+                            Case "Packing"
+                                dataArray = Split(dataValue, Chr(13))
+                                dataSeq = 1
+
+                                xWriter.WriteStartElement(ds.Tables(0).Columns(i).ColumnName)
+
+                                For Each dataStr As String In dataArray
+                                    dataTag = "PackingDesc" & dataSeq
+                                    xWriter.WriteElementString(dataTag, dataStr)
+                                    dataSeq += 1
+                                Next
+
+                                xWriter.WriteEndElement()
+
+                            Case "VesselName", "CarrierName"
+                                xWriter.WriteStartElement(ds.Tables(0).Columns(i).ColumnName.Replace("Name", ""))
+                                xWriter.WriteElementString(ds.Tables(0).Columns(i).ColumnName, dataValue.Replace(Chr(13), " "))
+
+                            Case "VesselCode", "CarrierCode"
+                                xWriter.WriteElementString(ds.Tables(0).Columns(i).ColumnName.Replace("Code", ""), dataValue.Replace(Chr(13), " "))
+                                xWriter.WriteEndElement()
+
+                            Case "ShipmentOrderNumber"
+                                xWriter.WriteStartElement("Shipments")
+                                xWriter.WriteStartElement("Shipment")
+                                xWriter.WriteElementString(ds.Tables(0).Columns(i).ColumnName, dataValue.Replace(Chr(13), " "))
+
+                            Case "IncotermCode"
+                                xWriter.WriteStartElement("Incoterm")
+                                xWriter.WriteElementString("Code", dataValue.Replace(Chr(13), " "))
+
+                            Case "IncotermCity"
+                                xWriter.WriteElementString("City", dataValue.Replace(Chr(13), " "))
+                                xWriter.WriteEndElement()
+
+                            Case "Pieces"
+                                xWriter.WriteStartElement("Totals")
+                                xWriter.WriteElementString(ds.Tables(0).Columns(i).ColumnName, dataValue.Replace(Chr(13), " "))
+
+                            Case "VolumeInCBM"
+                                xWriter.WriteElementString(ds.Tables(0).Columns(i).ColumnName, dataValue.Replace(Chr(13), " "))
+                                xWriter.WriteEndElement()
+
+                            Case Else
+                                xWriter.WriteElementString(ds.Tables(0).Columns(i).ColumnName, dataValue.Replace(Chr(13), " "))
+                        End Select
+                    End If
+                Next
+                ' ===============================================================================
+                ' End: Shipment Details
+                ' ===============================================================================
+
+                ' ===============================================================================
+                ' Purchase Order Details
+                ' ===============================================================================
+                If ds.Tables(1).Rows.Count > 0 Then
+                    ' Start Tag of PurchaseOrders
+                    xWriter.WriteStartElement("PurchaseOrders")
+
+                    For l = 0 To ds.Tables(1).Rows.Count - 1
+                        For j = 0 To ds.Tables(1).Columns.Count - 1
+                            dataValue = common.NullVal(ds.Tables(1).Rows(k).Item(ds.Tables(1).Columns(j).ColumnName).ToString, "").Replace(Chr(10), Chr(13))
+
+                            Select Case ds.Tables(1).Columns(j).ColumnName
+                                Case "ContainerLn"
+                                    CfhLn = CType(dataValue, Integer)
+
+                                Case "PONumber"
+                                    xWriter.WriteStartElement("PurchaseOrder")
+                                    xWriter.WriteElementString(ds.Tables(1).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+
+                                Case "VolumeInCBM"
+                                    xWriter.WriteElementString(ds.Tables(1).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    xWriter.WriteEndElement()
+
+                                    ' Move to next row
+                                    k += 1
+
+                                Case "CBM"
+                                    xWriter.WriteElementString(ds.Tables(1).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+
+                                    ' ===============================================================================
+                                    ' Start: PO Details
+                                    ' ===============================================================================
+                                    drArray = ds.Tables(2).Select("BkpRefLn = '" & CfhLn & "'") ''" & CfhLn & "'
+
+                                    If ds.Tables(2).Select("BkpRefLn = '" & CfhLn & "'").Length > 0 Then
+                                        ' Start Tag of PONo
+                                        xWriter.WriteStartElement("PONo")
+                                        dataSeq = 1
+
+                                        For Each dr As DataRow In drArray
+                                            xWriter.WriteStartElement("PO")
+                                            xWriter.WriteAttributeString("SEQ", dataSeq)
+                                            xWriter.WriteString(dr.Item("PO").ToString)
+                                            xWriter.WriteEndElement()
+
+                                            dataSeq += 1
+                                        Next
+
+                                        ' End Tag of PONo
+                                        xWriter.WriteEndElement()
+                                    End If
+
+                                    ' ===============================================================================
+                                    ' End: PO Details
+                                    ' ===============================================================================
+
+                                    ' End Tag of Container
+                                    xWriter.WriteEndElement()
+
+                                Case Else
+                                    xWriter.WriteElementString(ds.Tables(1).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+
+                            End Select
+                        Next
+                    Next
+
+                    ' End Tag of Purchase Order
+                    xWriter.WriteEndElement()
+                End If
+                ' ===============================================================================
+                ' End: Purchase Order Details
+                ' ===============================================================================
+
+                ' ===============================================================================
+                ' Container Details
+                ' ===============================================================================
+                If ds.Tables(2).Rows.Count > 0 Then
+                    k = 0
+
+                    xWriter.WriteStartElement("Containers")
+
+                    For l = 0 To ds.Tables(2).Rows.Count - 1
+                        For j = 0 To ds.Tables(2).Columns.Count - 1
+                            dataValue = common.NullVal(ds.Tables(2).Rows(k).Item(ds.Tables(2).Columns(j).ColumnName).ToString, "").Replace(Chr(10), Chr(13))
+
+                            Select Case ds.Tables(2).Columns(j).ColumnName
+                                Case "ContainerNumber"
+                                    currContainer = dataValue
+
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("Container")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                                Case "PONumber"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("ContainsPurchaseOrderNrs")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+                                    Else
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                                Case "HSCode"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("GoodsItems")
+                                        xWriter.WriteStartElement("GoodItem")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                                Case "MarkAndNumber"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteStartElement("MarksAndNumbers")
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+                                        xWriter.WriteEndElement()
+                                        xWriter.WriteEndElement()
+                                    End If
+
+                                Case "VolumeInCBM"
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                        xWriter.WriteEndElement()
+
+                                        prevContainer = currContainer
+                                    End If
+
+                                    ' Move to next row
+                                    k += 1
+
+                                Case Else
+                                    If currContainer <> prevContainer Then
+                                        xWriter.WriteElementString(ds.Tables(2).Columns(j).ColumnName, dataValue.Replace(Chr(13), " "))
+                                    End If
+
+                            End Select
+                        Next
+                    Next
+
+                    xWriter.WriteEndElement()
+                    xWriter.WriteEndElement()
+                End If
+                ' ===============================================================================
+                ' Container Details
+                ' ===============================================================================
+
+                ' End Tag of Shipment
+                xWriter.WriteEndElement()
+
+                ' Close XML file
+                xWriter.WriteEndDocument()
+                xWriter.Flush()
+                xWriter.Close()
+
+                ' Return message to screen
+                common.showScreenMsg("Agent VAT EDI XML file exported", 1)
+
+                ' Return message to screen
+                common.showScreenMsg("Copying Agent VAT EDI XML file to FTP directory", 1)
+
+                ' Create directory if not found
+                If Not My.Computer.FileSystem.DirectoryExists(exportPath) Then
+                    My.Computer.FileSystem.CreateDirectory(exportPath)
+                End If
+
+                ' Delete file if exist
+                If My.Computer.FileSystem.FileExists(exportPath & filename) Then
+                    My.Computer.FileSystem.DeleteFile(exportPath & filename)
+                End If
+
+                ' Copy file
+                My.Computer.FileSystem.CopyFile(backupPath & filename, exportPath & filename)
+
+                ' Return message to screen
+                common.showScreenMsg("Agent VAT EDI XML file copied to FTP directory", 1)
+                common.SaveLog("Agent VAT EDI XML file copied to FTP directory" & Chr(13) & "Source: " & backupPath & filename & Chr(13) & "Destination: " & exportPath & filename)
+
+                ' Release Memory
+                GC.Collect()
+                GC.WaitForPendingFinalizers()
+
+                ' --------------------------------------------------------
+            Else
+                common.showScreenMsg("Shipment data not found (AelRefId: " & AelRefId & ", BkhRefId: " & BkhRefId & ")", 1)
+            End If
+        Catch ex As Exception
+            common.showScreenMsg("Error in exporting Agent VAT EDI file (AelRefId: " & AelRefId & ")")
+            common.SaveLog("Error in exporting Agent VAT EDI file (AelRefId: " & AelRefId & ")" & Chr(13) & "Error Message: " & ex.Message, "E")
+        End Try
+
+        Return filename
+
+        ' Remove Objects
+        filename = Nothing
+        cn = Nothing
+        sql = Nothing
+        i = Nothing
+        j = Nothing
+        k = Nothing
+        sqlConn = Nothing
+        cmd = Nothing
+        sda = Nothing
+        ds = Nothing
+        drArray = Nothing
+        common = Nothing
+        xWriter = Nothing
+        dataValue = Nothing
+        dataSeq = Nothing
+        dataArray = Nothing
+        dataTag = Nothing
+        CfhLn = Nothing
+
+        ' Release Memory
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+
+    End Function
+
+    Function exportAgentEDI_File_AVN(ByVal AelRefId As Integer, ByVal BkhRefId As Integer) As String
+
+        Dim filename As String = ""
+        Dim cn As String = ""
+        Dim sql As String = ""
+        Dim i As Integer = 0
+        Dim j As Integer = 0
+        Dim k As Integer = 0
+        Dim l As Integer = 0
+        Dim sqlConn As Object
+        Dim cmd As Object
+        Dim sda As Object
+        Dim ds As New DataSet
+        Dim drArray() As DataRow
+        Dim common As New common
+        Dim xWriter As XmlTextWriter
+        Dim dataValue As String = ""
+        Dim dataSeq As Integer = 0
+        Dim dataArray() As String
+        Dim dataTag As String = ""
+        Dim CfhLn As Integer = 0
+        Dim startPosition As Integer = 0
+        Dim columnLength As Integer = 0
+        Dim FirstColumnName As String
+        Dim SecondColumnName As String
+        Dim prevContainer As String = ""
+        Dim currContainer As String = ""
+
+        Dim exportPath As String = My.Settings.ExportPath & "AgentAVNEDI\Export\"
+        Dim backupPath As String = My.Settings.ExportPath & "AgentAVNEDI\Backup\"
+
+        cn &= "Data Source=" & My.Settings.Server & ";"
+        cn &= "Database=" & My.Settings.DB & ";"
+        cn &= "User Id=" & My.Settings.Login & ";"
+        cn &= "Password=" & My.Settings.Password & ";"
+
+        ' Return message to screen
+        common.showScreenMsg("Retrieving Agent EDI shipment data (AelRefId: " & AelRefId & ", BkhRefId: " & BkhRefId & ")", 1)
+
+        Try
+            If My.Settings.DBType = 0 Then
+                ' MySQL server
+                sql = "CALL usp_GenEDI_AVN_Detail ('" & AelRefId & "', '" & BkhRefId & "')"
+                sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
+                cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
+                cmd.CommandTimeout = My.Settings.Timeout
+                sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
+                ds.Clear()
+                sda.Fill(ds)
+                sda.Dispose()
+                sqlConn.Dispose()
+            Else
+                ' SQL server
+                sql = "EXEC usp_GenEDI_AVN_Detail '" & AelRefId & "', '" & BkhRefId & "'"
+                sqlConn = New SqlClient.SqlConnection(cn)
+                cmd = New SqlClient.SqlCommand(sql, sqlConn)
+                cmd.CommandTimeout = My.Settings.Timeout
+                sda = New SqlClient.SqlDataAdapter(cmd)
+                ds.Clear()
+                sda.Fill(ds)
+                sda.Dispose()
+                sqlConn.Dispose()
+            End If
+
+            If ds.Tables(0).Rows.Count > 0 Then
+                ' Return message to screen
+                common.showScreenMsg("Exporting Agent EDI XML file", 1)
+
+                filename = ds.Tables(0).Rows(0).Item("HouseBillNumber").ToString & "_" & Format(Now, "yyyyMMddHHmmss") & ".xml"
+
+                backupPath &= "AVN" & "\"
+                exportPath &= "AVN" & "\"
 
                 ' Create directory if not exist
                 If Not My.Computer.FileSystem.DirectoryExists(backupPath) Then
