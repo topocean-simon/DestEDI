@@ -20,6 +20,7 @@ Public Class frmOptions
             chkStartMGF.Checked = My.Settings.StartMGF
             chkStartVAT.Checked = My.Settings.StartVAT
             chkStartAVN.Checked = My.Settings.StartAVN
+            chkStartRNT.Checked = My.Settings.StartRNT
             chkStartVATRec.Checked = My.Settings.StartVATRec
 
             txtExportPath.Text = My.Settings.ExportPath
@@ -72,6 +73,7 @@ Public Class frmOptions
             My.Settings.StartMGF = chkStartMGF.Checked
             My.Settings.StartVAT = chkStartVAT.Checked
             My.Settings.StartAVN = chkStartAVN.Checked
+            My.Settings.StartRNT = chkStartRNT.Checked
             My.Settings.StartVATRec = chkStartVATRec.Checked
 
             My.Settings.ExportPath = Trim(txtExportPath.Text)
@@ -428,6 +430,5 @@ Public Class frmOptions
             chkImport.Checked = True
         End If
     End Sub
-
 
 End Class

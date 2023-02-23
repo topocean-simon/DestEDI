@@ -25,6 +25,7 @@ Partial Class frmOptions
         Me.btnExit = New System.Windows.Forms.Button
         Me.tabOptions = New System.Windows.Forms.TabControl
         Me.tabGnlSetting = New System.Windows.Forms.TabPage
+        Me.chkStartAVN = New System.Windows.Forms.CheckBox
         Me.Label21 = New System.Windows.Forms.Label
         Me.txtAnknowPath = New System.Windows.Forms.TextBox
         Me.chkStartVATRec = New System.Windows.Forms.CheckBox
@@ -106,7 +107,7 @@ Partial Class frmOptions
         Me.btnFTP_Save = New System.Windows.Forms.Button
         Me.Label32 = New System.Windows.Forms.Label
         Me.cobFTP_Origin = New System.Windows.Forms.ComboBox
-        Me.chkStartAVN = New System.Windows.Forms.CheckBox
+        Me.chkStartRNT = New System.Windows.Forms.CheckBox
         Me.tabOptions.SuspendLayout()
         Me.tabGnlSetting.SuspendLayout()
         Me.tabODBC.SuspendLayout()
@@ -135,6 +136,7 @@ Partial Class frmOptions
         '
         'tabGnlSetting
         '
+        Me.tabGnlSetting.Controls.Add(Me.chkStartRNT)
         Me.tabGnlSetting.Controls.Add(Me.chkStartAVN)
         Me.tabGnlSetting.Controls.Add(Me.Label21)
         Me.tabGnlSetting.Controls.Add(Me.txtAnknowPath)
@@ -180,6 +182,16 @@ Partial Class frmOptions
         Me.tabGnlSetting.Text = "General"
         Me.tabGnlSetting.UseVisualStyleBackColor = True
         '
+        'chkStartAVN
+        '
+        Me.chkStartAVN.AutoSize = True
+        Me.chkStartAVN.Location = New System.Drawing.Point(346, 358)
+        Me.chkStartAVN.Name = "chkStartAVN"
+        Me.chkStartAVN.Size = New System.Drawing.Size(50, 17)
+        Me.chkStartAVN.TabIndex = 37
+        Me.chkStartAVN.Text = "AVN"
+        Me.chkStartAVN.UseVisualStyleBackColor = True
+        '
         'Label21
         '
         Me.Label21.AutoSize = True
@@ -199,7 +211,7 @@ Partial Class frmOptions
         'chkStartVATRec
         '
         Me.chkStartVATRec.AutoSize = True
-        Me.chkStartVATRec.Location = New System.Drawing.Point(146, 381)
+        Me.chkStartVATRec.Location = New System.Drawing.Point(215, 381)
         Me.chkStartVATRec.Name = "chkStartVATRec"
         Me.chkStartVATRec.Size = New System.Drawing.Size(157, 17)
         Me.chkStartVATRec.TabIndex = 34
@@ -209,7 +221,7 @@ Partial Class frmOptions
         'chkStartVAT
         '
         Me.chkStartVAT.AutoSize = True
-        Me.chkStartVAT.Location = New System.Drawing.Point(346, 358)
+        Me.chkStartVAT.Location = New System.Drawing.Point(146, 381)
         Me.chkStartVAT.Name = "chkStartVAT"
         Me.chkStartVAT.Size = New System.Drawing.Size(48, 17)
         Me.chkStartVAT.TabIndex = 33
@@ -920,15 +932,15 @@ Partial Class frmOptions
         Me.cobFTP_Origin.Size = New System.Drawing.Size(249, 21)
         Me.cobFTP_Origin.TabIndex = 1
         '
-        'chkStartAVN
+        'chkStartRNT
         '
-        Me.chkStartAVN.AutoSize = True
-        Me.chkStartAVN.Location = New System.Drawing.Point(400, 358)
-        Me.chkStartAVN.Name = "chkStartAVN"
-        Me.chkStartAVN.Size = New System.Drawing.Size(50, 17)
-        Me.chkStartAVN.TabIndex = 37
-        Me.chkStartAVN.Text = "AVN"
-        Me.chkStartAVN.UseVisualStyleBackColor = True
+        Me.chkStartRNT.AutoSize = True
+        Me.chkStartRNT.Location = New System.Drawing.Point(418, 358)
+        Me.chkStartRNT.Name = "chkStartRNT"
+        Me.chkStartRNT.Size = New System.Drawing.Size(49, 17)
+        Me.chkStartRNT.TabIndex = 38
+        Me.chkStartRNT.Text = "RNT"
+        Me.chkStartRNT.UseVisualStyleBackColor = True
         '
         'frmOptions
         '
@@ -1037,5 +1049,6 @@ Partial Class frmOptions
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents txtAnknowPath As System.Windows.Forms.TextBox
     Friend WithEvents chkStartAVN As System.Windows.Forms.CheckBox
+    Friend WithEvents chkStartRNT As System.Windows.Forms.CheckBox
 
 End Class

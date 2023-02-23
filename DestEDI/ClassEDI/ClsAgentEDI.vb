@@ -671,6 +671,127 @@ Public Class ClsAgentEDI
 
     End Sub
 
+    Sub exportAgentEDI_RNT()
+
+        Dim sql As String = ""
+        Dim cn As String = ""
+        Dim i As Integer
+        Dim common As New common
+
+        Dim AelRefId As Integer = 0
+        Dim BkhRefId As Integer = 0
+        Dim AgtCode As String = ""
+
+        Dim sqlConn As Object
+        Dim sda As Object
+        Dim cmd As Object
+        Dim ds, ds2 As New DataSet
+
+        Dim filename As String = ""
+
+        cn &= "Data Source=" & My.Settings.Server & ";"
+        cn &= "Database=" & My.Settings.DB & ";"
+        cn &= "User Id=" & My.Settings.Login & ";"
+        cn &= "Password=" & My.Settings.Password & ";"
+
+        ' Return message to screen
+        common.showScreenMsg("Generate Agent RNT EDI export list", 1)
+
+        If My.Settings.DBType = 0 Then
+            ' MySQL
+            sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
+            sql = "CALL usp_AgentEDI_ExportList_RNT();"
+            cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
+            cmd.CommandTimeout = My.Settings.Timeout
+            sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
+            ds.Clear()
+            sda.Fill(ds)
+        Else
+            ' SQL Server
+            sqlConn = New SqlClient.SqlConnection(cn)
+            sql = "EXEC usp_AgentEDI_ExportList_RNT"
+            cmd = New SqlClient.SqlCommand(sql, sqlConn)
+            cmd.CommandTimeout = My.Settings.Timeout
+            sda = New SqlClient.SqlDataAdapter(cmd)
+            ds.Clear()
+            sda.Fill(ds)
+        End If
+
+        If ds.Tables(0).Rows.Count > 0 Then
+            For i = 0 To ds.Tables(0).Rows.Count - 1
+                Try
+                    With ds.Tables(0).Rows(i)
+                        AelRefId = .Item("AelRefId").ToString
+                        BkhRefId = .Item("AelBkhRefId").ToString
+                        AgtCode = .Item("AelDestCode").ToString
+
+                        ' Export XML file
+                        filename = Me.exportAgentEDI_File_AVN(AelRefId, BkhRefId)
+
+                        ' Return message to screen
+                        common.showScreenMsg("Completing Agent AVN EDI (AelRefId: " & AelRefId & ", Filename: " & filename & ")")
+
+                        If My.Settings.DBType = 0 Then
+                            sql = "CALL usp_AgentEDI_Complete('" & AelRefId & "', '" & filename & "');"
+
+                            cmd = Nothing
+                            sda = Nothing
+
+                            sqlConn = New MySql.Data.MySqlClient.MySqlConnection(cn)
+                            cmd = New MySql.Data.MySqlClient.MySqlCommand(sql, sqlConn)
+                            cmd.CommandTimeout = My.Settings.Timeout
+                            sda = New MySql.Data.MySqlClient.MySqlDataAdapter(cmd)
+                            ds2.Clear()
+                            sda.Fill(ds2)
+                            sda.Dispose()
+                            sqlConn.Dispose()
+                        Else
+                            sql = "EXEC usp_AgentEDI_Complete '" & AelRefId & "', '" & filename & "'"
+
+                            cmd = Nothing
+                            sda = Nothing
+
+                            sqlConn = New SqlClient.SqlConnection(cn)
+                            cmd = New SqlClient.SqlCommand(sql, sqlConn)
+                            cmd.CommandTimeout = My.Settings.Timeout
+                            sda = New SqlClient.SqlDataAdapter(cmd)
+                            ds2.Clear()
+                            sda.Fill(ds2)
+                            sda.Dispose()
+                            sqlConn.Dispose()
+                        End If
+
+                        ' Return message to screen
+                        common.showScreenMsg("Agent AVN EDI exported successfully (AelRefId: " & AelRefId & ")")
+                    End With
+                Catch ex As Exception
+                    common.showScreenMsg("Error found in exporting Agent AVN EDI (AelRefId: " & AelRefId & ", BkhRefId: " & BkhRefId & ")")
+                    common.SaveLog("Error found in exporting Agent AVN EDI (AelRefId: " & AelRefId & ", BkhRefId: " & BkhRefId & ")" & Chr(13) & "Error Message: " & ex.Message, "E")
+                End Try
+            Next
+        Else
+            common.showScreenMsg("No shipments for AVN Agent EDI", 1)
+        End If
+
+        ' Remove Variables
+        sql = Nothing
+        cn = Nothing
+        i = Nothing
+        common = Nothing
+        BkhRefId = Nothing
+        AgtCode = Nothing
+        sqlConn = Nothing
+        cmd = Nothing
+        sda = Nothing
+        ds = Nothing
+        ds2 = Nothing
+
+        ' Release Memory
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+
+    End Sub
+
     Sub importAgentEDI_VAT()
 
         Dim AnknowPath As String

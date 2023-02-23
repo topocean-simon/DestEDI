@@ -288,6 +288,21 @@ Public Class frmMain
             agentEDI = Nothing
         End If
 
+        If My.Settings.StartRNT Then
+            ' Generate Agent EDI
+            Try
+                agentEDI.exportAgentEDI_RNT()
+            Catch ex As Exception
+                common.showScreenMsg("Error captured from exporting Agent EDI (RNT).")
+                common.SaveLog("Error captured from exporting Agent EDI (RNT)." & Chr(13) & "Error Message:" & Chr(13) & ex.Message, "E")
+
+                ' Send Error Email
+                clsEmail.sendAckEmail("Agent Exporting RNT EDI", ex.Message, 2)
+            End Try
+
+            agentEDI = Nothing
+        End If
+
         ' Generate Agent EDI (AllBridge) Suspense
         'Try
         '    agentEDI.exportAgentEDI_Allbridge()

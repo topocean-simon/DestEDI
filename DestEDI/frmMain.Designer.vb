@@ -120,7 +120,7 @@ Partial Class frmMain
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(153, 13)
         Me.Label1.TabIndex = 6
-        Me.Label1.Text = "Program Version 1.0.0.23"
+        Me.Label1.Text = "Program Version 1.0.0.24"
         '
         'Timer4
         '
